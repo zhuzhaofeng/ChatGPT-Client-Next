@@ -1,5 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "api": "/api",
+  "api": "http://103.179.243.163:8080",
   "modules": ["CHAT", "TOOLS"]
 }
