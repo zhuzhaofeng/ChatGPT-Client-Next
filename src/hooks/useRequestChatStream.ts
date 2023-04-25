@@ -20,7 +20,7 @@ export async function useRequestChatStream(
   await axios
     .post(url, sendMessage, {
       responseType: 'stream',
-      timeout: 30000,
+      timeout: 3 * 60 * 1000,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
