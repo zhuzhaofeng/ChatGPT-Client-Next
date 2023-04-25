@@ -6,7 +6,9 @@ export const useLayoutStore = defineStore(
   '__AI_1024_STORE_LAYOUT',
   () => {
     // 联系我们弹窗
-    const isShowContact = ref(true)
+    const isShowLog = ref(true)
+    // 联系我们弹窗
+    const isShowContact = ref(false)
     const collapsed = ref(false)
 
     // 顶部设置是否显示
@@ -42,6 +44,9 @@ export const useLayoutStore = defineStore(
     const changeShowContactAction = (payload: boolean) => {
       isShowContact.value = payload
     }
+    const changeShowLogAction = (payload: boolean) => {
+      isShowLog.value = payload
+    }
 
     const toggleCollapsedAction = (payload?: boolean) => {
       collapsed.value = payload !== undefined ? payload : !collapsed.value
@@ -51,7 +56,9 @@ export const useLayoutStore = defineStore(
       collapsed,
       themeMode,
       isShowContact,
+      isShowLog,
       changeModeAction,
+      changeShowLogAction,
       toggleCollapsedAction,
       headerSettingCollapsed,
       changeShowContactAction,
@@ -66,7 +73,7 @@ export const useLayoutStore = defineStore(
       },
       {
         storage: sessionStorage,
-        paths: ['isShowContact']
+        paths: ['isShowLog']
       }
     ]
   }

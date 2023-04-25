@@ -178,6 +178,7 @@ const handleToRouter = (path: string) => {
   </a-layout>
   <MessageListDrawer v-model:visible="layoutStore.collapsed" />
   <ContactModel />
+  <ChangelogModel />
 </template>
 
 <style lang="less" scoped>
