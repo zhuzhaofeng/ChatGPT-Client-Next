@@ -227,7 +227,6 @@ export const useChatStore = defineStore(
           abortController.value = ctl
         },
         onMessage(message: string, done: boolean) {
-          console.log({ message, done })
           getMessageById(botMessage.id).content = message
           onMessage && onMessage(done)
           if (done) {
@@ -242,7 +241,6 @@ export const useChatStore = defineStore(
           }
         },
         onError(error: any, statusCode?: number) {
-          console.log(error)
           fetching.value = false
           if (axios.isCancel(error)) {
             // 手动停止, 不做content操作
