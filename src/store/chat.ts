@@ -1,9 +1,11 @@
 import { Message, Modal } from '@arco-design/web-vue'
+import axios from 'axios'
 import { encode } from 'gpt-token-utils'
 import { cloneDeep } from 'lodash-es'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+import { useRequestChatStream } from '@/hooks/useRequestChatStream'
 import type { ChatItem, MessageItem, MessageModel } from '@/types/chat'
 import { createMessage } from '@/utils'
 
@@ -219,7 +221,8 @@ export const useChatStore = defineStore(
       session.value!.messages.push(botMessage)
 
       fetching.value = true
-      requestChatStream(reqData, {
+      // requestChatStream(reqData, {
+      useRequestChatStream(reqData, {
         onController(ctl) {
           abortController.value = ctl
         },
@@ -237,9 +240,9 @@ export const useChatStore = defineStore(
             }
           }
         },
-        onError(error: Error, statusCode?: number) {
+        onError(error: any, statusCode?: number) {
           fetching.value = false
-          if (error?.name === 'AbortError') {
+          if (axios.isCancel(error)) {
             // 手动停止, 不做content操作
           } else if (statusCode === 401) {
             getMessageById(botMessage.id).content = '请输入积分卡'
@@ -266,6 +269,16 @@ export const useChatStore = defineStore(
 
     /** 初始化判断是否有聊天, 没有创建一个空的 */
     onMounted(() => {
+      // setTimeout(() => {
+      //   console.log('开始')
+      //   useRequestChatStream({
+      //     card: '10241025',
+      //     messages: [{ role: 'user', content: '写一个js节流函数' }],
+      //     temperature: 0.7,
+      //     model: 'gpt-3.5-turbo',
+      //     is_stream: true
+      //   })
+      // }, 3000)
       // sessions.value = []
       fetching.value = false
       if (sessions.value?.length < 1) {
