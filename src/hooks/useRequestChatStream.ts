@@ -27,7 +27,10 @@ export async function useRequestChatStream(
       },
       signal: controller.signal,
       onDownloadProgress(evt) {
-        options?.onMessage(evt?.event?.target?.responseText, false)
+        console.log({ evt })
+        if (evt?.event?.target?.status === 200) {
+          options?.onMessage(evt?.event?.target?.responseText, false)
+        }
       }
     })
     .then(res => {

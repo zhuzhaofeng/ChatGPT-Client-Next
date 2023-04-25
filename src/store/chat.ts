@@ -227,6 +227,7 @@ export const useChatStore = defineStore(
           abortController.value = ctl
         },
         onMessage(message: string, done: boolean) {
+          console.log({ message, done })
           getMessageById(botMessage.id).content = message
           onMessage && onMessage(done)
           if (done) {
