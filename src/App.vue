@@ -193,12 +193,15 @@ const handleToRouter = (path: string) => {
   }
 }
 .header-menu {
-  @apply h-14;
-  :deep(.arco-menu-icon) {
-    @apply mr-0;
+  @apply h-full overflow-hidden;
+  :deep(.arco-menu-inner) {
+    @apply h-full overflow-hidden;
+    .arco-menu-icon {
+      @apply mr-0;
+    }
   }
   :deep(.arco-menu-selected-label) {
-    @apply left-0 right-0 hidden;
+    @apply left-0 right-0;
   }
 }
 .header-collapsed {
