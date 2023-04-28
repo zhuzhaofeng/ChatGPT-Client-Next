@@ -1,6 +1,6 @@
 ## 网站介绍
 
-1024 智能 AI 是为了方便国内用户快捷快速稳定的使用目前火热的 ChatGPT 而创建的。让普通用户,不想折腾的用户能简单快速的体验 ChatGPT，免去 ChatGPT 的账号注册烦恼。
+Ai 智能⼯具平台 是为了方便国内用户快捷快速稳定的使用目前火热的 ChatGPT 而创建的。让普通用户,不想折腾的用户能简单快速的体验 ChatGPT，免去 ChatGPT 的账号注册烦恼。
 
 我们直接对接 ChatGPT 的接口，保证一切参数原汁原味，跟在官网使用效果一摸一样
 
@@ -68,7 +68,7 @@
 
 积分卡购买地址：
 
-[点击直达：https://www.houfaka.com/links/193B8193](https://www.houfaka.com/links/193B8193)
+[点击直达：https://www.houfaka.com/links/82105BDE](https://www.houfaka.com/links/82105BDE)
 
 购买响应的积分卡，购买积分越多，价格越便宜，购买之后会自动发货。
 

@@ -51,8 +51,12 @@ const handleToRouter = (path: string) => {
           $route.meta?.hideLogoText ? 'justify-start pl-4' : 'justify-center'
         ]"
       >
-        <img class="w-8 h-8" src="@/assets/openai.svg" alt="1024 智能 AI" />
-        <h1 class="text-base m-0">1024 智能 AI</h1>
+        <img
+          class="w-8 h-8 mr-2"
+          src="@/assets/openai.svg"
+          alt="Ai 智能⼯具平台"
+        />
+        <h1 class="text-base m-0">Ai 智能⼯具平台</h1>
       </RouterLink>
       <!-- 移动端不显示 -->
       <a-menu
@@ -86,7 +90,7 @@ const handleToRouter = (path: string) => {
           class="cursor-pointer"
           type="text"
           target="_blank"
-          href="https://www.houfaka.com/links/193B8193"
+          href="https://www.houfaka.com/links/82105BDE"
         >
           购买积分卡
         </a-button>
@@ -156,7 +160,7 @@ const handleToRouter = (path: string) => {
               </a-button>
               <a-button
                 target="_blank"
-                href="https://www.houfaka.com/links/193B8193"
+                href="https://www.houfaka.com/links/82105BDE"
               >
                 购买积分卡
               </a-button>

@@ -17,7 +17,7 @@ export default defineConfig({
       colors: {
         dark: '#232324',
         'dark-900': '#17171a',
-        'arcoblue-1': '#A8E3E0',
+        'arcoblue-1': '#10A37F',
         primary: '#10A37F',
         link: '#10A37F',
         success: '#00b324',

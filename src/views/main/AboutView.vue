@@ -18,7 +18,7 @@
       <div
         class="text-base leading-8 text-black dark:text-light-900 text-opacity-75"
       >
-        欢迎使用1024智能Ai！
+        欢迎使用 Ai 智能⼯具平台！
         <br />
         <br />
         我们是一支专业的人工智能团队，致力于为用户提供高效、便捷、智能的解决方案。
