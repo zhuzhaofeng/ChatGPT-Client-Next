@@ -246,7 +246,7 @@ const placeholder = computed(() => {
           class="message-item"
           :class="[
             item.role === 'assistant' ? 'is-reply' : 'is-request',
-            isMobileScreen ? 'max-w-full' : 'max-w-2xl'
+            isMobileScreen ? 'max-w-full' : 'max-w-4/5'
           ]"
         >
           <div
