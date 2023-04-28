@@ -214,13 +214,39 @@ const placeholder = computed(() => {
         outer-style="flex: 1; overflow: hidden; "
         class="overflow-y-auto h-full p-4 flex flex-col gap-y-2 pb-20"
       >
+        <div
+          v-if="!session?.messages?.length"
+          class="flex flex-col items-center justify-center mt-10 gap-y-10 text-center text-gray-600"
+        >
+          <span>
+            国内最快最好用的gpt站点，网址经常变更，所以使用前一定要记得先加群！！！
+          </span>
+          <div class="grid grid-cols-2">
+            <div class="flex flex-col items-center gap-y-2 py-2">
+              <img
+                class="max-w-40 w-11/12 border-solid border border-gray-200 p-1"
+                alt="QQ"
+                src="/QQ.png"
+              />
+              <span class="">QQ群</span>
+            </div>
+            <div class="flex flex-col items-center gap-y-2 py-2">
+              <img
+                class="max-w-40 w-11/12 border-solid border border-gray-200 p-1"
+                alt="WeChat"
+                src="/WeChat.png"
+              />
+              <span class="">微信群</span>
+            </div>
+          </div>
+        </div>
         <section
           v-for="(item, index) in session?.messages ?? []"
           :key="item.id"
           class="message-item"
           :class="[
             item.role === 'assistant' ? 'is-reply' : 'is-request',
-            isMobileScreen ? 'max-w-full' : 'max-w-4/5'
+            isMobileScreen ? 'max-w-full' : 'max-w-2xl'
           ]"
         >
           <div

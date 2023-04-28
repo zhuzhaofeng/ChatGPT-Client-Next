@@ -82,10 +82,14 @@ const handleToRouter = (path: string) => {
           <template #icon><icon-question-circle /></template>
           使用说明
         </a-menu-item>
-        <a-menu-item key="About">
-          <template #icon><icon-info-circle /></template>
-          关于我们
-        </a-menu-item>
+        <a-button
+          class="cursor-pointer"
+          type="text"
+          target="_blank"
+          href="https://www.houfaka.com/links/193B8193"
+        >
+          购买积分卡
+        </a-button>
       </a-menu>
       <i class="flex-1"></i>
       <a-input-group
@@ -151,18 +155,18 @@ const handleToRouter = (path: string) => {
                 使用说明
               </a-button>
               <a-button
-                v-if="route.name !== 'About'"
-                @click="handleToRouter('/about')"
+                target="_blank"
+                href="https://www.houfaka.com/links/193B8193"
               >
-                关于我们
+                购买积分卡
               </a-button>
             </template>
             <SettingDrawer />
             <a-button
-              target="_blank"
-              href="https://www.houfaka.com/links/193B8193"
+              v-if="route.name !== 'About'"
+              @click="handleToRouter('/about')"
             >
-              购买会员
+              关于我们
             </a-button>
           </div>
         </template>
@@ -189,11 +193,12 @@ const handleToRouter = (path: string) => {
   }
 }
 .header-menu {
+  @apply h-14;
   :deep(.arco-menu-icon) {
     @apply mr-0;
   }
   :deep(.arco-menu-selected-label) {
-    @apply left-0 right-0;
+    @apply left-0 right-0 hidden;
   }
 }
 .header-collapsed {
