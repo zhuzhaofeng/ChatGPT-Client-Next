@@ -6,6 +6,7 @@ export {}
 declare global {
   const ALL_MODELS: typeof import('../src/config/index')['ALL_MODELS']
   const ALL_MODELS_MAX_TOKENS: typeof import('../src/config/index')['ALL_MODELS_MAX_TOKENS']
+  const APP_TITLE: typeof import('../src/config/index')['APP_TITLE']
   const CHAT_COMPLETIONS: typeof import('../src/config/index')['CHAT_COMPLETIONS']
   const DRAW_PROMPT: typeof import('../src/config/index')['DRAW_PROMPT']
   const EffectScope: typeof import('vue')['EffectScope']
@@ -92,6 +93,7 @@ declare module 'vue' {
   interface ComponentCustomProperties {
     readonly ALL_MODELS: UnwrapRef<typeof import('../src/config/index')['ALL_MODELS']>
     readonly ALL_MODELS_MAX_TOKENS: UnwrapRef<typeof import('../src/config/index')['ALL_MODELS_MAX_TOKENS']>
+    readonly APP_TITLE: UnwrapRef<typeof import('../src/config/index')['APP_TITLE']>
     readonly CHAT_COMPLETIONS: UnwrapRef<typeof import('../src/config/index')['CHAT_COMPLETIONS']>
     readonly DRAW_PROMPT: UnwrapRef<typeof import('../src/config/index')['DRAW_PROMPT']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>

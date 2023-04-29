@@ -60,7 +60,6 @@ declare module '@vue/runtime-core' {
     ChangelogModel: typeof import('./../src/components/ChangelogModel.vue')['default']
     ChangeSessionTopic: typeof import('./../src/components/ChangeSessionTopic.vue')['default']
     ContactModel: typeof import('./../src/components/ContactModel.vue')['default']
-    copy: typeof import('./../src/components/ContactModel copy.vue')['default']
     DownloadSession: typeof import('./../src/components/DownloadSession.vue')['default']
     MessageContent: typeof import('./../src/components/MessageContent.vue')['default']
     PointsCard: typeof import('./../src/components/PointsCard.vue')['default']

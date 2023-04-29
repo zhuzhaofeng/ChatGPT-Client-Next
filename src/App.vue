@@ -51,12 +51,8 @@ const handleToRouter = (path: string) => {
           $route.meta?.hideLogoText ? 'justify-start pl-4' : 'justify-center'
         ]"
       >
-        <img
-          class="w-8 h-8 mr-2"
-          src="@/assets/openai.svg"
-          alt="Ai 智能⼯具平台"
-        />
-        <h1 class="text-base m-0">Ai 智能⼯具平台</h1>
+        <img class="w-8 h-8 mr-2" src="@/assets/logo.svg" :alt="APP_TITLE" />
+        <h1 class="text-base m-0">{{ APP_TITLE }}</h1>
       </RouterLink>
       <!-- 移动端不显示 -->
       <a-menu

@@ -6,9 +6,9 @@ export const useLayoutStore = defineStore(
   '__AI_1024_STORE_LAYOUT',
   () => {
     // 联系我们弹窗
-    const isShowLog = ref(true)
+    const isShowLog = ref(false)
     // 联系我们弹窗
-    const isShowContact = ref(false)
+    const isShowContact = ref(true)
     const collapsed = ref(false)
 
     // 顶部设置是否显示
@@ -73,7 +73,8 @@ export const useLayoutStore = defineStore(
       },
       {
         storage: sessionStorage,
-        paths: ['isShowLog']
+        // paths: ['isShowLog', 'isShowContact']
+        paths: ['isShowContact']
       }
     ]
   }

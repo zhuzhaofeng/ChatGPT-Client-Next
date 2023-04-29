@@ -18,45 +18,37 @@
       <div
         class="text-base leading-8 text-black dark:text-light-900 text-opacity-75"
       >
-        欢迎使用 Ai 智能⼯具平台！
+        非常感谢您选择使用{{ APP_TITLE.trim().toLocaleUpperCase() }}！ ！
         <br />
         <br />
-        我们是一支专业的人工智能团队，致力于为用户提供高效、便捷、智能的解决方案。
+        作为一家专注于AI技术应用的公司，我们不断研究最新的AI技术，结合实践经验，总结出最优秀的AI使用技巧和方法，为用户提供全面的AI应用服务解决方案。我们的使命是通过AI技术，提高工作效率，提高生活质量。
         <br />
         <br />
-        我们的产品涵盖了智能问答、自动翻译、文案生成、智能写作、自动摘要和自动纠错等多个领域，能够满足您的不同需求。
+        AI2023拥有多个专业部门，为您提供全面的服务:
         <br />
-        <br />
-        我们深入研究各种技术和算法，不断优化产品性能和用户体验，以确保您得到最好的服务。感谢您的信任和支持，我们将持续努力，为您带来更多惊喜和价值！
+        1.
+        AI工具使用部门可以为您提供技术支持和使用建议，帮助您更好地使用AI技术解决问题。<br />
+        2.
+        AI实践应用知识库部门将与您共同探讨并总结出最佳实践，分享经验和知识。<br />
+        3.
+        AI应用大学堂部门将为您提供全面的课程和培训，帮助您更好地理解和掌握AI技术。<br />
+        4.
+        AI模型训练部门将提供强大的计算和数据处理能力，帮助您训练和优化AI模型。<br />
+        我们期待与您携手合作，共同推动AI技术的发展和应用，为提高工作效率和生活质量做出贡献。感谢您的信任和支持！
       </div>
 
-      <div class="grid grid-cols-2 mt-6">
-        <div class="flex flex-col items-center gap-y-2 py-2">
-          <img
-            class="max-w-60 w-3/4 border-solid border border-gray-200 p-1"
-            alt="QQ"
-            src="/QQ.png"
-          />
-          <!-- <div
-            v-qr="'QQ群'"
-            class="w-28 h-28"
-            :key="layoutStore.themeMode"
-          ></div> -->
-          <span class="">QQ群</span>
-        </div>
-        <div class="flex flex-col items-center gap-y-2 py-2">
-          <img
-            class="max-w-60 w-3/4 border-solid border border-gray-200 p-1"
-            alt="WeChat"
-            src="/WeChat.png"
-          />
-          <!-- <div
+      <div class="flex flex-col items-center gap-y-2 py-2">
+        <img
+          class="max-w-60 w-3/4 border-solid border border-gray-200 p-1"
+          alt="WeChat"
+          src="/WeChat.png"
+        />
+        <!-- <div
             v-qr="'微信群'"
             class="w-28 h-28"
             :key="layoutStore.themeMode"
           ></div> -->
-          <span class="">微信群</span>
-        </div>
+        <span class="">微信群</span>
       </div>
     </div>
   </a-scrollbar>

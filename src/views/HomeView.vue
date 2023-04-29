@@ -8,7 +8,9 @@ const { VITE_FEATURES } = import.meta.env
     class="overflow-y-auto h-full p-4 flex flex-col gap-y-2"
   >
     <div class="home-logo__wrapper">
-      <img class="logo" src="@/assets/openai.svg" alt="Ai 智能⼯具平台" />
+      <!-- <img class="logo" src="@/assets/openai.svg" :alt="APP_TITLE" /> -->
+      <img class="logo" src="@/assets/logo.svg" :alt="APP_TITLE" />
+      <!-- <h1 class="title">{{ APP_TITLE }}</h1> -->
       <h1 class="title">Ai 智能⼯具平台</h1>
     </div>
     <div class="feature-grid xl:max-w-4xl max-w-11/12">
@@ -55,8 +57,7 @@ const { VITE_FEATURES } = import.meta.env
           <a target="_blank" href="https://t.zsxq.com/0d9g9y277">知识星球</a>
         </h2>
         <p class="details">
-          全年免费⽆限量使⽤ GPT-3.5Trubo 平台，掌握AI时代的⾼效能利器！<br />
-          全⽹独家CHATGPT实战技能与商业应⽤，⾼⼿群内分享经验与答疑，助你链接优质⼈脉！
+          全年免费使用GPT-3.5Trubo平台，全网独家CHATGPT实战技能与商业应用。
         </p>
       </article>
     </div>
@@ -96,7 +97,7 @@ const { VITE_FEATURES } = import.meta.env
 .home-logo__wrapper {
   @apply hidden flex-col lg:flex items-center justify-center text-primary  pt-2 lg:pt-4 lg:pt-10;
   .logo {
-    @apply w-6 lg:w-10 h-6 lg:h-10;
+    @apply w-8 lg:w-14 h-8 lg:h-1w-14;
   }
 
   .title {

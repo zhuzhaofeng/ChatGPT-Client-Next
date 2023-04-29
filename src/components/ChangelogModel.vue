@@ -29,8 +29,8 @@ const handleCloseContactModel = () => {
   >
     <template #title>
       <div class="header-logo gap-x-2">
-        <img class="w-6 h-6" src="@/assets/openai.svg" alt="Ai 智能⼯具平台" />
-        <h1 class="text-base m-0">Ai 智能⼯具平台</h1>
+        <img class="w-6 h-6" src="@/assets/openai.svg" :alt="APP_TITLE" />
+        <h1 class="text-base m-0">{{ APP_TITLE }}</h1>
       </div>
     </template>
     <div>
