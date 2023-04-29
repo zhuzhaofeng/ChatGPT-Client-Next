@@ -41,7 +41,7 @@
         <img
           class="max-w-60 w-3/4 border-solid border border-gray-200 p-1"
           alt="WeChat"
-          src="/WeChat.png"
+          src="https://cdnjson.com/images/2023/04/29/output.png"
         />
         <!-- <div
             v-qr="'微信群'"
