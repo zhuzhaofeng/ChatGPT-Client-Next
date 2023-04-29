@@ -26,3 +26,4 @@ pnpm-debug.log*
 !commitlint.config.js
 .babel.config.js
 !.umirc.ts
+dist
