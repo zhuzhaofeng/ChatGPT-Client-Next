@@ -23,7 +23,7 @@ export const ALL_MODELS: ChatModel[] = [
 ]
 
 export const POINTS_MAP: Record<ChatModel, number> = {
-  'gpt-4': 100,
+  'gpt-4': 20,
   'gpt-3.5-turbo': 3,
   'gpt-4-32k-0314': 0,
   'gpt-4-32k': 0,
