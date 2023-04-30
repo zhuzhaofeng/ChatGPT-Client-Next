@@ -13,6 +13,7 @@ declare global {
   const IMAGES_GENERATIONS: typeof import('../src/config/index')['IMAGES_GENERATIONS']
   const POINTS_MAP: typeof import('../src/config/index')['POINTS_MAP']
   const QUERY_CARD: typeof import('../src/config/index')['QUERY_CARD']
+  const WECHAT_URL: typeof import('../src/config/index')['WECHAT_URL']
   const computed: typeof import('vue')['computed']
   const copyText: typeof import('../src/utils/copy')['copyText']
   const createApp: typeof import('vue')['createApp']
@@ -100,6 +101,7 @@ declare module 'vue' {
     readonly IMAGES_GENERATIONS: UnwrapRef<typeof import('../src/config/index')['IMAGES_GENERATIONS']>
     readonly POINTS_MAP: UnwrapRef<typeof import('../src/config/index')['POINTS_MAP']>
     readonly QUERY_CARD: UnwrapRef<typeof import('../src/config/index')['QUERY_CARD']>
+    readonly WECHAT_URL: UnwrapRef<typeof import('../src/config/index')['WECHAT_URL']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly copyText: UnwrapRef<typeof import('../src/utils/copy')['copyText']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>

@@ -29,4 +29,5 @@ declare interface ViteEnv {
   VITE_STORE_PREFIX: string
   // 开启功能列表
   VITE_FEATURES: string
+  VITE_WECHAT_URL: string
 }
