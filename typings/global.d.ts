@@ -30,4 +30,5 @@ declare interface ViteEnv {
   // 开启功能列表
   VITE_FEATURES: string
   VITE_WECHAT_URL: string
+  VITE_E_WECHAT_URL: string
 }

@@ -9,6 +9,7 @@ declare global {
   const APP_TITLE: typeof import('../src/config/index')['APP_TITLE']
   const CHAT_COMPLETIONS: typeof import('../src/config/index')['CHAT_COMPLETIONS']
   const DRAW_PROMPT: typeof import('../src/config/index')['DRAW_PROMPT']
+  const E_WECHAT_URL: typeof import('../src/config/index')['E_WECHAT_URL']
   const EffectScope: typeof import('vue')['EffectScope']
   const IMAGES_GENERATIONS: typeof import('../src/config/index')['IMAGES_GENERATIONS']
   const POINTS_MAP: typeof import('../src/config/index')['POINTS_MAP']
@@ -97,6 +98,7 @@ declare module 'vue' {
     readonly APP_TITLE: UnwrapRef<typeof import('../src/config/index')['APP_TITLE']>
     readonly CHAT_COMPLETIONS: UnwrapRef<typeof import('../src/config/index')['CHAT_COMPLETIONS']>
     readonly DRAW_PROMPT: UnwrapRef<typeof import('../src/config/index')['DRAW_PROMPT']>
+    readonly E_WECHAT_URL: UnwrapRef<typeof import('../src/config/index')['E_WECHAT_URL']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly IMAGES_GENERATIONS: UnwrapRef<typeof import('../src/config/index')['IMAGES_GENERATIONS']>
     readonly POINTS_MAP: UnwrapRef<typeof import('../src/config/index')['POINTS_MAP']>

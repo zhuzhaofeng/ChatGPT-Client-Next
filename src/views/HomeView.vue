@@ -70,16 +70,17 @@ const handleToPage = (command: 'Chat_3.5' | 'Chat_4' | 'Draw') => {
       </div>
       <a
         target="_blank"
-        href="https://t.zsxq.com/0d9g9y277"
+        href="https://www.houfaka.com/details/B9B58366"
         class="feature dark:bg-dark"
       >
         <!-- <a-button class="icon bg-gray-200 dark:bg-dark-900">💡</a-button> -->
         <a-button class="icon bg-gray-200 dark:bg-dark-900">
-          <img class="w-2/3" src="@/assets/zs-180x180.png" alt="GPT-4" />
+          <img class="w-2/3" src="@/assets/logo.svg" alt="AI2023年度会员" />
         </a-button>
-        <h2 class="title">知识星球</h2>
+        <h2 class="title">AI2023年度会员</h2>
         <p class="details">
-          全年免费使用GPT-3.5Trubo平台，全网独家CHATGPT实战技能与商业应用。
+          全年免费使用GPT-3.5
+          Turbo平台，加入专属会员群，解决疑难问题，掌握AI实践技能。
         </p>
       </a>
     </div>
