@@ -44,11 +44,11 @@
           :src="E_WECHAT_URL"
         />
         <!-- <div
-            v-qr="'微信群'"
+            v-qr="'联系我们'"
             class="w-28 h-28"
             :key="layoutStore.themeMode"
           ></div> -->
-        <span class="">微信群</span>
+        <span class="">联系我们</span>
       </div>
     </div>
   </a-scrollbar>
