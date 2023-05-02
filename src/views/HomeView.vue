@@ -20,7 +20,7 @@ const handleToPage = (command: Command) => {
     ) {
       chatStore.newChatAction()
     }
-    router.push({ name: 'Chat', params: { model: 3.5 } })
+    router.push({ name: 'Chat' })
   }
   if (command === 'Chat_4') {
     if (
@@ -30,13 +30,13 @@ const handleToPage = (command: Command) => {
     ) {
       chatStore.newChatAction('gpt-4')
     }
-    router.push({ name: 'Chat', params: { model: 4 } })
+    router.push({ name: 'Chat' })
   }
   if (command === 'Midjourney') {
     Message.info('即将推出')
   }
   if (command === 'Dall_E') {
-    Message.info('即将推出')
+    router.push({ name: 'DallE' })
   }
 }
 </script>
@@ -73,6 +73,18 @@ const handleToPage = (command: Command) => {
           延续 Chat GPT 系列，以更先进的架构提供更多样的自然语言生成服务。
         </p>
       </div>
+      <div @click="handleToPage('Dall_E')" class="feature dark:bg-dark">
+        <div class="flex items-center gap-x-4">
+          <a-button class="icon bg-gray-200 dark:bg-dark-900">
+            <img class="w-2/3" src="@/assets/openai_dall_e.svg" alt="DALL·E" />
+          </a-button>
+          <h2 class="title">DALL·E</h2>
+        </div>
+        <p class="details">
+          基于人工智能的创意绘图工具，将文字描述转化为创意图像，让您的想象得到无限扩展。
+        </p>
+      </div>
+
       <div @click="handleToPage('Midjourney')" class="feature dark:bg-dark">
         <!-- <a-button class="icon bg-gray-200 dark:bg-dark-900">📝</a-button> -->
         <div class="flex items-center gap-x-4">
@@ -83,17 +95,6 @@ const handleToPage = (command: Command) => {
         </div>
         <p class="details">
           智能AI绘图软件，为您提供全新的绘图体验，让您的想象变得更加生动、具体。
-        </p>
-      </div>
-      <div @click="handleToPage('Dall_E')" class="feature dark:bg-dark">
-        <div class="flex items-center gap-x-4">
-          <a-button class="icon bg-gray-200 dark:bg-dark-900">
-            <img class="w-2/3" src="@/assets/openai_dall_e.svg" alt="DALL·E" />
-          </a-button>
-          <h2 class="title">DALL·E</h2>
-        </div>
-        <p class="details">
-          基于人工智能的创意绘图工具，将文字描述转化为创意图像，让您的想象得到无限扩展。
         </p>
       </div>
     </div>
