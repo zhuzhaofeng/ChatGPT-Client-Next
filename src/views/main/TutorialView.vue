@@ -47,7 +47,10 @@ onMounted(() => {
         </a-breadcrumb-item>
         <a-breadcrumb-item>使用说明</a-breadcrumb-item>
       </a-breadcrumb>
-      <div class="markdown-body p-6 rounded shadow" v-html="text"></div>
+      <div
+        class="markdown-body p-6 rounded border border-solid border-gray-100 dark:border-dark-900"
+        v-html="text"
+      ></div>
     </div>
   </a-scrollbar>
 </template>

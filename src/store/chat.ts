@@ -6,7 +6,12 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import { useRequestChatStream } from '@/hooks/useRequestChatStream'
-import type { ChatItem, MessageItem, MessageModel } from '@/types/chat'
+import type {
+  ChatItem,
+  ChatModel,
+  MessageItem,
+  MessageModel
+} from '@/types/chat'
 import { createMessage } from '@/utils'
 
 import { ALL_MODELS_MAX_TOKENS } from './../config/index'
@@ -19,6 +24,7 @@ export const useChatStore = defineStore(
     const abortController = ref<AbortController>(new AbortController())
     const newChat: ChatItem = {
       id: genNonDuplicateID(),
+      model: 'gpt-3.5-turbo',
       topic: '',
       sendMemory: true,
       messages: [],
@@ -35,7 +41,7 @@ export const useChatStore = defineStore(
     })
 
     /** 新加一个聊天 */
-    const newChatAction = () => {
+    const newChatAction = (model: ChatModel = 'gpt-3.5-turbo') => {
       if (abortController.value?.abort) {
         abortController.value?.abort()
       }
@@ -43,6 +49,7 @@ export const useChatStore = defineStore(
       sessions.value.unshift(
         cloneDeep({
           ...newChat,
+          model,
           topic: '',
           id
         })
@@ -62,7 +69,7 @@ export const useChatStore = defineStore(
         content: '是否确认移除所有会话信息, 此操作不可逆!!!',
         onOk() {
           sessions.value = []
-          newChatAction()
+          // newChatAction()
         }
       })
     }
@@ -98,7 +105,7 @@ export const useChatStore = defineStore(
               abortController.value?.abort()
             }
             if (sessions.value.length === 0) {
-              newChatAction()
+              // newChatAction()
             }
           }
         }
@@ -194,18 +201,29 @@ export const useChatStore = defineStore(
         Message.error('请输入您的消息')
         return
       }
-      const messages = await getRequiredMessages({ role: 'user', content })
-      // if (messages.length < 1) {
-      //   Message.error(`超出模型允许的最大字数，请删减字符`)
-      //   return
-      // }
-      const reqData: MessageModel = {
-        card: configStore.cardInfo?.enable ? configStore.card : undefined,
-        messages,
-        temperature: configStore.temperature,
-        model: configStore.chatModel,
-        is_stream: true
+      let reqData: MessageModel
+      if (session.value?.model === 'gpt-4') {
+        const messages = session.value?.messages
+        reqData = {
+          card: configStore.cardInfo?.enable ? configStore.card : undefined,
+          model: 'gpt-4',
+          question: content,
+          conversation_id:
+            Array.isArray(messages) && messages?.length > 0
+              ? session.value?.messages[0].conversation_id
+              : undefined
+        }
+      } else {
+        const messages = await getRequiredMessages({ role: 'user', content })
+        reqData = {
+          card: configStore.cardInfo?.enable ? configStore.card : undefined,
+          messages,
+          temperature: configStore.temperature,
+          model: 'gpt-3.5-turbo',
+          is_stream: true
+        }
       }
+
       const userMessage: MessageItem = createMessage({
         role: 'user',
         content
@@ -218,6 +236,7 @@ export const useChatStore = defineStore(
         streaming: true,
         content: ''
       })
+
       session.value!.messages.push(botMessage)
 
       fetching.value = true
@@ -227,17 +246,31 @@ export const useChatStore = defineStore(
           abortController.value = ctl
         },
         onMessage(message: string, done: boolean) {
-          getMessageById(botMessage.id).content = message
-          onMessage && onMessage(done)
+          // console.log(message)
+          if (!session.value?.topic) {
+            const topic = userMessage.content.trim().replace(/\r/g, '')
+            session.value!.topic =
+              topic.length > 30 ? topic.slice(0, 30) : topic
+          }
+          if (session.value?.model === 'gpt-4') {
+            const arr: {
+              answer: string
+              conversation_id: string
+              delta_answer: string
+            }[] = JSON.parse(`[${message.replace(/}{/g, '},{')}]`)
+            const currentMessage = arr.pop()
+
+            getMessageById(botMessage.id).content = currentMessage?.answer || ''
+            getMessageById(botMessage.id).conversation_id =
+              currentMessage?.conversation_id
+          } else {
+            getMessageById(botMessage.id).content = message
+          }
           if (done) {
+            onMessage && onMessage(done)
             fetching.value = false
             getMessageById(botMessage.id).streaming = false
             getMessageById(botMessage.id).date = new Date().valueOf()
-            if (!session.value?.topic) {
-              const topic = userMessage.content.trim().replace(/\r/g, '')
-              session.value!.topic =
-                topic.length > 30 ? topic.slice(0, 30) : topic
-            }
           }
         },
         onError(error: any, statusCode?: number) {
@@ -283,7 +316,7 @@ export const useChatStore = defineStore(
       // sessions.value = []
       fetching.value = false
       if (sessions.value?.length < 1) {
-        newChatAction()
+        // newChatAction()
       } else {
         sessions.value.forEach(item => {
           item.messages.forEach(item => {

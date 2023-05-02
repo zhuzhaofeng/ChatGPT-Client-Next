@@ -92,7 +92,7 @@ const handleToRouter = (path: string) => {
         </a-button>
       </a-menu>
       <i class="flex-1"></i>
-      <a-input-group
+      <!-- <a-input-group
         v-if="!isMobileScreen && !route.meta.hideSetup"
         class="mr-2"
       >
@@ -115,9 +115,12 @@ const handleToRouter = (path: string) => {
           ]"
         >
           <ChangeChatModel v-if="$route.name !== 'Draw'" class="w-48 mr-2" />
-          <SetupCard class="w-60" />
         </div>
-      </a-input-group>
+      </a-input-group> -->
+      <SetupCard
+        v-if="!isMobileScreen && !route.meta.hideSetup"
+        class="w-60 mr-2"
+      />
       <a-popover
         trigger="click"
         v-model:popup-visible="popupVisible"
@@ -174,9 +177,19 @@ const handleToRouter = (path: string) => {
     </a-layout-header>
     <a-divider class="m-0" />
     <a-layout class="flex-1 overflow-hidden relative">
-      <RouterView v-if="!isMobileScreen" name="sider"></RouterView>
+      <router-view v-if="!isMobileScreen" name="sider" v-slot="{ Component }">
+        <transition name="fade">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+      <!-- <RouterView v-if="!isMobileScreen" name="sider"></RouterView> -->
       <a-layout class="flex-1 overflow-hidden">
-        <RouterView />
+        <!-- <RouterView /> -->
+        <router-view v-slot="{ Component }">
+          <transition name="fade">
+            <component :is="Component" />
+          </transition>
+        </router-view>
       </a-layout>
     </a-layout>
   </a-layout>

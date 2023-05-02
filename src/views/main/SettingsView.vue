@@ -52,13 +52,13 @@ const handleChangeTheme = (v: string | number | boolean) => {
         </div>
 
         <div class="setting-card dark:bg-dark">
-          <a-form-item
+          <!-- <a-form-item
             class="mb-0"
             field="modelConfig.model"
             label="模型(Model)"
           >
             <ChangeChatModel class="w-full" />
-          </a-form-item>
+          </a-form-item> -->
           <a-form-item
             class="mb-0"
             field="modelConfig.temperature"

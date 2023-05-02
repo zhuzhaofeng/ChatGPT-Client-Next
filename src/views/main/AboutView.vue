@@ -35,7 +35,7 @@
           <img
             class="max-w-60 w-3/4 border-solid border border-gray-200 p-1"
             alt="QQ"
-            src="/QQ.png"
+            src="/assets/QQ.png"
           />
           <!-- <div
             v-qr="'QQ群'"
@@ -48,7 +48,7 @@
           <img
             class="max-w-60 w-3/4 border-solid border border-gray-200 p-1"
             alt="WeChat"
-            src="/WeChat.png"
+            src="/assets/WeChat.png"
           />
           <!-- <div
             v-qr="'微信群'"

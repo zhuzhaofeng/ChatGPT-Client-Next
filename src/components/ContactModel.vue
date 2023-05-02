@@ -67,7 +67,7 @@ const handleCloseContactModel = () => {
         <img
           class="max-w-11/12 border-solid border border-gray-200 p-1"
           alt="QQ"
-          src="/QQ.png"
+          src="/assets/QQ.png"
         />
         <span class="">QQ群</span>
       </div>
@@ -75,7 +75,7 @@ const handleCloseContactModel = () => {
         <img
           class="max-w-11/12 border-solid border border-gray-200 p-1"
           alt="WeChat"
-          src="/WeChat.png"
+          src="/assets/WeChat.png"
         />
         <span class="">微信群</span>
       </div>

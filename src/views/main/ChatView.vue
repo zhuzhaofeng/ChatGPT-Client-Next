@@ -119,9 +119,9 @@ onUnmounted(() => {
  * 修改当前标题
  * @param value string 标题
  */
-const handleEditEnd = () => {
-  chatStore.handleChangeSessionTopicAction(currentTitle.value)
-}
+// const handleEditEnd = () => {
+//   chatStore.handleChangeSessionTopicAction(currentTitle.value)
+// }
 
 const handleEnter = (event: KeyboardEvent) => {
   if (!isMobileScreen.value) {
@@ -226,7 +226,7 @@ const placeholder = computed(() => {
               <img
                 class="max-w-40 w-11/12 border-solid border border-gray-200 p-1"
                 alt="QQ"
-                src="/QQ.png"
+                src="/assets/QQ.png"
               />
               <span class="">QQ群</span>
             </div>
@@ -234,7 +234,7 @@ const placeholder = computed(() => {
               <img
                 class="max-w-40 w-11/12 border-solid border border-gray-200 p-1"
                 alt="WeChat"
-                src="/WeChat.png"
+                src="/assets/WeChat.png"
               />
               <span class="">微信群</span>
             </div>
@@ -314,7 +314,7 @@ const placeholder = computed(() => {
         </section>
       </a-scrollbar>
       <a-divider class="m-0" />
-      <footer class="chat-footer">
+      <footer v-if="session?.id" class="chat-footer">
         <!-- <a-spin :loading="chatStore.fetching" class="footer-spin">
           <template #icon> </template>
         </a-spin> -->
@@ -373,10 +373,7 @@ const placeholder = computed(() => {
     }
 
     .message-item__actions {
-      @apply flex items-center gap-x-1 pl-4 absolute -top-9 right-8 opacity-0  transition-all duration-500;
-    }
-    &:hover .message-item__actions {
-      @apply right-0 opacity-100;
+      @apply flex items-center gap-x-1 pl-4 absolute -top-9 right-0  transition-all duration-500;
     }
   }
 }

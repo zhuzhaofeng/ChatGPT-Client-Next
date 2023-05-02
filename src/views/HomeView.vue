@@ -1,5 +1,44 @@
 <script setup lang="ts" :inheritAttrs="false">
-const { VITE_FEATURES } = import.meta.env
+import { Message } from '@arco-design/web-vue'
+
+import { useChatStore } from '@/store/chat'
+
+// const { VITE_FEATURES } = import.meta.env
+
+const router = useRouter()
+type Command = 'Chat_3.5' | 'Chat_4' | 'Midjourney' | 'Dall_E'
+// const configStore = useConfigStore()
+const chatStore = useChatStore()
+const handleToPage = (command: Command) => {
+  const sessions = chatStore.sessions
+  if (command === 'Chat_3.5') {
+    if (
+      sessions.length < 1 ||
+      sessions[0]?.model === 'gpt-4' ||
+      ((!sessions[0]?.model || sessions[0]?.model == 'gpt-3.5-turbo') &&
+        sessions[0]?.messages.length > 0)
+    ) {
+      chatStore.newChatAction()
+    }
+    router.push({ name: 'Chat', params: { model: 3.5 } })
+  }
+  if (command === 'Chat_4') {
+    if (
+      sessions.length < 1 ||
+      sessions[0]?.model === 'gpt-3.5-turbo' ||
+      (sessions[0]?.model == 'gpt-4' && sessions[0]?.messages.length > 0)
+    ) {
+      chatStore.newChatAction('gpt-4')
+    }
+    router.push({ name: 'Chat', params: { model: 4 } })
+  }
+  if (command === 'Midjourney') {
+    Message.info('即将推出')
+  }
+  if (command === 'Dall_E') {
+    Message.info('即将推出')
+  }
+}
 </script>
 
 <template>
@@ -8,54 +47,57 @@ const { VITE_FEATURES } = import.meta.env
     class="overflow-y-auto h-full p-4 flex flex-col gap-y-2"
   >
     <div class="home-logo__wrapper">
-      <img class="logo" src="@/assets/openai.svg" alt="1024 智能 AI" />
-      <h1 class="title">1024 智能 AI</h1>
+      <img class="logo" src="@/assets/openai.svg" :alt="APP_TITLE" />
+      <h1 class="title">{{ APP_TITLE }}</h1>
     </div>
-    <div class="feature-grid xl:max-w-6xl max-w-11/12">
-      <article class="feature dark:bg-dark">
-        <a-button class="icon bg-gray-200 dark:bg-dark-900">🤖</a-button>
-        <h2 class="title">智能问答</h2>
+    <div class="feature-grid xl:max-w-4xl max-w-11/12">
+      <div @click="handleToPage('Chat_3.5')" class="feature dark:bg-dark">
+        <!-- <a-button class="icon bg-gray-200 dark:bg-dark-900">🤖</a-button> -->
+        <div class="flex items-center gap-x-4">
+          <a-button class="icon bg-gray-200 dark:bg-dark-900">
+            <img class="w-2/3" src="@/assets/openai.svg" alt="GPT-3.5 Turbo" />
+          </a-button>
+          <h2 class="title">GPT 3.5</h2>
+        </div>
+        <p class="details">人工智能聊天工具，模拟人类思维，适用于多种语境。</p>
+      </div>
+      <div @click="handleToPage('Chat_4')" class="feature dark:bg-dark">
+        <!-- <a-button class="icon bg-gray-200 dark:bg-dark-900">🌐</a-button> -->
+        <div class="flex items-center gap-x-4">
+          <a-button class="icon bg-gray-200 dark:bg-dark-900">
+            <img class="w-2/3" src="@/assets/openai.svg" alt="GPT-3.5 Turbo" />
+          </a-button>
+          <h2 class="title">GPT 4</h2>
+        </div>
         <p class="details">
-          对您提出的问题进行回答，根据问题的语义和上下文提供最准确的答案
+          延续 Chat GPT 系列，以更先进的架构提供更多样的自然语言生成服务。
         </p>
-      </article>
-      <article class="feature dark:bg-dark">
-        <a-button class="icon bg-gray-200 dark:bg-dark-900">🌐</a-button>
-        <h2 class="title">自动翻译</h2>
+      </div>
+      <div @click="handleToPage('Midjourney')" class="feature dark:bg-dark">
+        <!-- <a-button class="icon bg-gray-200 dark:bg-dark-900">📝</a-button> -->
+        <div class="flex items-center gap-x-4">
+          <a-button class="icon bg-gray-200 dark:bg-dark-900">
+            <img class="w-2/3" src="@/assets/mj-180x180.png" alt="Midjourney" />
+          </a-button>
+          <h2 class="title">Midjourney</h2>
+        </div>
         <p class="details">
-          对您输入的内容进行翻译，将其翻译成指定语言，方便跨语言交流。
+          智能AI绘图软件，为您提供全新的绘图体验，让您的想象变得更加生动、具体。
         </p>
-      </article>
-      <article class="feature dark:bg-dark">
-        <a-button class="icon bg-gray-200 dark:bg-dark-900">💡</a-button>
-        <h2 class="title">文案生成</h2>
+      </div>
+      <div @click="handleToPage('Dall_E')" class="feature dark:bg-dark">
+        <div class="flex items-center gap-x-4">
+          <a-button class="icon bg-gray-200 dark:bg-dark-900">
+            <img class="w-2/3" src="@/assets/openai_dall_e.svg" alt="DALL·E" />
+          </a-button>
+          <h2 class="title">DALL·E</h2>
+        </div>
         <p class="details">
-          根据您的需求，自动生成符合行业标准的广告文案、营销文案等，提高您的创意和效率。
+          基于人工智能的创意绘图工具，将文字描述转化为创意图像，让您的想象得到无限扩展。
         </p>
-      </article>
-      <article class="feature dark:bg-dark">
-        <a-button class="icon bg-gray-200 dark:bg-dark-900">📝</a-button>
-        <h2 class="title">智能写作</h2>
-        <p class="details">
-          根据您提供的主题和要求，自动生成高质量的文章、作文、论文等内容，方便您的写作和创作。
-        </p>
-      </article>
-      <article class="feature dark:bg-dark">
-        <a-button class="icon bg-gray-200 dark:bg-dark-900">🔍</a-button>
-        <h2 class="title">自动摘要</h2>
-        <p class="details">
-          自动提取文章的关键信息和摘要，帮助您快速了解文章内容。
-        </p>
-      </article>
-      <article class="feature dark:bg-dark">
-        <a-button class="icon bg-gray-200 dark:bg-dark-900">✏️</a-button>
-        <h2 class="title">自动纠错</h2>
-        <p class="details">
-          根据您输入的内容进行语法和拼写纠错，提高文本质量和可读性。
-        </p>
-      </article>
+      </div>
     </div>
-    <div class="flex items-center justify-center mt-6 gap-x-6">
+    <!-- <div class="flex items-center justify-center mt-6 gap-x-6">
       <a-button
         type="primary"
         shape="round"
@@ -83,7 +125,7 @@ const { VITE_FEATURES } = import.meta.env
       >
         工具
       </a-button>
-    </div>
+    </div> -->
   </a-scrollbar>
 </template>
 
@@ -91,7 +133,7 @@ const { VITE_FEATURES } = import.meta.env
 .home-logo__wrapper {
   @apply hidden flex-col lg:flex items-center justify-center text-primary  pt-2 lg:pt-4 lg:pt-10;
   .logo {
-    @apply w-6 lg:w-10 h-6 lg:h-10;
+    @apply w-8 lg:w-14 h-8 lg:h-14 w-8;
   }
 
   .title {
@@ -99,10 +141,13 @@ const { VITE_FEATURES } = import.meta.env
   }
 }
 .feature-grid {
-  @apply grid grid-cols-2 lg:grid-cols-3 w-full mx-auto gap-2 lg:gap-6  pt-2 lg:pt-4;
+  @apply grid grid-cols-1 lg:grid-cols-2  w-full mx-auto gap-2 lg:gap-6 pt-10 lg:pt-4;
   .feature {
-    @apply p-2 lg:p-4 rounded-md;
+    @apply p-2 lg:p-4 rounded-md cursor-pointer;
     background-color: var(--color-secondary);
+    &:hover {
+      background-color: var(--color-white);
+    }
     .icon {
       @apply text-sm h-6 w-6 lg:h-10 lg:w-10 lg:text-xl p-0 rounded-md;
     }
@@ -110,7 +155,8 @@ const { VITE_FEATURES } = import.meta.env
       @apply text-sm lg:text-base dark:text-gray-300;
     }
     .details {
-      @apply text-xs lg:text-sm  dark:text-gray-500;
+      @apply text-xs lg:text-sm;
+      color: var(--color-text-2);
     }
   }
 }

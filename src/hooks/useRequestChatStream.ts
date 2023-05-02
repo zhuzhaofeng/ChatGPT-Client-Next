@@ -16,9 +16,10 @@ export async function useRequestChatStream(
     options.onController(controller)
   }
   const configStore = useConfigStore()
-  const url = `${configStore.bootstrap.api}${CHAT_COMPLETIONS}`
+  const url3 = `${configStore.bootstrap.api}${CHAT_COMPLETIONS}`
+  const url4 = `${configStore.bootstrap.api}${CHAT_COMPLETIONS_4}`
   await axios
-    .post(url, sendMessage, {
+    .post(sendMessage.model === 'gpt-4' ? url4 : url3, sendMessage, {
       responseType: 'stream',
       timeout: 3 * 60 * 1000,
       headers: {
@@ -27,6 +28,7 @@ export async function useRequestChatStream(
       },
       signal: controller.signal,
       onDownloadProgress(evt) {
+        // console.log(evt)
         if (evt?.event?.target?.status === 200) {
           options?.onMessage(evt?.event?.target?.responseText, false)
         }
