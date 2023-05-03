@@ -55,6 +55,13 @@ if (VITE_FEATURES.includes('DALL_E')) {
     component: () => import('@/views/main/DallE.vue')
   })
 }
+if (VITE_FEATURES.includes('MIDJOURNEY')) {
+  routes.push({
+    path: '/mj',
+    name: 'Midjourney',
+    component: () => import('@/views/main/MidjourneyView.vue')
+  })
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

@@ -203,14 +203,16 @@ export const useChatStore = defineStore(
       }
       let reqData: MessageModel
       if (session.value?.model === 'gpt-4') {
-        const messages = session.value?.messages
+        const messages = (session.value?.messages ?? []).filter(
+          ({ role }) => role === 'assistant'
+        )
         reqData = {
           card: configStore.cardInfo?.enable ? configStore.card : undefined,
           model: 'gpt-4',
           question: content,
           conversation_id:
             Array.isArray(messages) && messages?.length > 0
-              ? session.value?.messages[0].conversation_id
+              ? messages[messages.length - 1].conversation_id
               : undefined
         }
       } else {

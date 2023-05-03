@@ -85,18 +85,6 @@ export const ALL_MODELS_MAX_TOKENS: Record<ChatModel, number> = {
 export const genTitleTemplate =
   '使用四到五个字直接返回这句话的简要主题，不要解释、不要标点、不要语气词、不要多余文本，如果没有主题，请直接返回“闲聊”'
 
-/** POST 聊天接口 */
-export const CHAT_COMPLETIONS = '/v1/chat/completions'
-
-/** POST 聊天接口 gpt 4 */
-export const CHAT_COMPLETIONS_4 = '/v1/completions'
-
-/** GET 查询卡密积分 */
-export const QUERY_CARD = '/v1/card'
-
-/** POST 图片生成 */
-export const IMAGES_GENERATIONS = '/v1/images/generations'
-
 export const DRAW_PROMPT = [
   {
     tag: '未来科技',
@@ -147,3 +135,37 @@ export const DRAW_PROMPT = [
     keywords: '数码艺术、VR艺术、游戏美术、互动媒体、AR/VR技术'
   }
 ]
+
+/** 优化描述 */
+export const OPTIMIZE_DATA = (content: string, card?: string) => ({
+  card,
+  messages: [
+    {
+      role: 'system',
+      content:
+        '你将扮演一个摄影师，你将在一行中写下描述，不使用换行符。首先是图片概念描绘什么画面内容，流畅的附加这些关键字：拍摄机器的型号、参数、照片风格、色调、灯光、氛围、构图等。控制在2-6行文字以内。全程用英文书写描述'
+    },
+    {
+      role: 'user',
+      content
+    }
+  ],
+  model: 'gpt-3.5-turbo',
+  temperature: 0.7,
+  is_stream: false
+})
+
+/** POST 聊天接口 */
+export const CHAT_COMPLETIONS = '/v1/chat/completions'
+
+/** POST 聊天接口 gpt 4 */
+export const CHAT_COMPLETIONS_4 = '/v1/completions'
+
+/** GET 查询卡密积分 */
+export const QUERY_CARD = '/v1/card'
+
+/** POST 图片生成 */
+export const IMAGES_GENERATIONS = '/v1/images/generations'
+
+/** POST MJ 图片生成 */
+export const MJ_GENERATIONS = '/v1/mj-generations'

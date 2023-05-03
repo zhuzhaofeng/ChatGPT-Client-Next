@@ -1,6 +1,4 @@
 <script setup lang="ts" :inheritAttrs="false">
-import { Message } from '@arco-design/web-vue'
-
 import { useChatStore } from '@/store/chat'
 
 // const { VITE_FEATURES } = import.meta.env
@@ -33,7 +31,7 @@ const handleToPage = (command: Command) => {
     router.push({ name: 'Chat' })
   }
   if (command === 'Midjourney') {
-    Message.info('即将推出')
+    router.push({ name: 'Midjourney' })
   }
   if (command === 'Dall_E') {
     router.push({ name: 'DallE' })

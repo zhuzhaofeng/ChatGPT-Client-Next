@@ -150,3 +150,50 @@ export async function requestDrawImage(
     options?.onError(err as Error)
   }
 }
+
+export async function requestMjImage(
+  sendData: any,
+  options?: {
+    onSuccess: (data: {
+      image_id: string
+      image_url: string
+      actions: string[]
+    }) => void
+    onError: (error: Error, statusCode?: number) => void
+  }
+) {
+  try {
+    const configStore = useConfigStore()
+    const path = `${configStore.bootstrap.api}${MJ_GENERATIONS}`
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(sendData)
+    })
+
+    if (res.ok) {
+      const resp = await res.json()
+      console.log(resp)
+      if (resp.code === 500) {
+        options?.onError(new Error(resp.msg), resp.code)
+      } else {
+        // {"created":1682176988,"data":[{"url":""}]}
+        options?.onSuccess(resp)
+      }
+    } else if (res.status === 401) {
+      console.error('Anauthorized')
+      options?.onError(new Error('Anauthorized'), res.status)
+    } else if (res.status === 500) {
+      const text = await res.json()
+      options?.onError(new Error(text), res.status)
+    } else {
+      console.error('Stream Error', res.body)
+      options?.onError(new Error('Stream Error'), res.status)
+    }
+  } catch (err) {
+    console.error('NetWork Error', err)
+    options?.onError(err as Error)
+  }
+}

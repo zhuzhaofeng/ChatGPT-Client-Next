@@ -12,6 +12,8 @@ declare global {
   const DRAW_PROMPT: typeof import('../src/config/index')['DRAW_PROMPT']
   const EffectScope: typeof import('vue')['EffectScope']
   const IMAGES_GENERATIONS: typeof import('../src/config/index')['IMAGES_GENERATIONS']
+  const MJ_GENERATIONS: typeof import('../src/config/index')['MJ_GENERATIONS']
+  const OPTIMIZE_DATA: typeof import('../src/config/index')['OPTIMIZE_DATA']
   const POINTS_MAP: typeof import('../src/config/index')['POINTS_MAP']
   const QUERY_CARD: typeof import('../src/config/index')['QUERY_CARD']
   const computed: typeof import('vue')['computed']
@@ -58,6 +60,7 @@ declare global {
   const requestChatStream: typeof import('../src/utils/request')['requestChatStream']
   const requestChatTitle: typeof import('../src/utils/request')['requestChatTitle']
   const requestDrawImage: typeof import('../src/utils/request')['requestDrawImage']
+  const requestMjImage: typeof import('../src/utils/request')['requestMjImage']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
@@ -72,8 +75,10 @@ declare global {
   const useCopyCode: typeof import('../src/hooks/useCopyCode')['useCopyCode']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
+  const useImageDownloader: typeof import('../src/hooks/useImageDownloader')['useImageDownloader']
   const useLink: typeof import('vue-router')['useLink']
   const useRequestChatStream: typeof import('../src/hooks/useRequestChatStream')['useRequestChatStream']
+  const useRequestOptimizePrompt: typeof import('../src/hooks/useRequestChatStream')['useRequestOptimizePrompt']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
@@ -100,6 +105,8 @@ declare module 'vue' {
     readonly DRAW_PROMPT: UnwrapRef<typeof import('../src/config/index')['DRAW_PROMPT']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly IMAGES_GENERATIONS: UnwrapRef<typeof import('../src/config/index')['IMAGES_GENERATIONS']>
+    readonly MJ_GENERATIONS: UnwrapRef<typeof import('../src/config/index')['MJ_GENERATIONS']>
+    readonly OPTIMIZE_DATA: UnwrapRef<typeof import('../src/config/index')['OPTIMIZE_DATA']>
     readonly POINTS_MAP: UnwrapRef<typeof import('../src/config/index')['POINTS_MAP']>
     readonly QUERY_CARD: UnwrapRef<typeof import('../src/config/index')['QUERY_CARD']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
@@ -146,6 +153,7 @@ declare module 'vue' {
     readonly requestChatStream: UnwrapRef<typeof import('../src/utils/request')['requestChatStream']>
     readonly requestChatTitle: UnwrapRef<typeof import('../src/utils/request')['requestChatTitle']>
     readonly requestDrawImage: UnwrapRef<typeof import('../src/utils/request')['requestDrawImage']>
+    readonly requestMjImage: UnwrapRef<typeof import('../src/utils/request')['requestMjImage']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
@@ -160,8 +168,10 @@ declare module 'vue' {
     readonly useCopyCode: UnwrapRef<typeof import('../src/hooks/useCopyCode')['useCopyCode']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
+    readonly useImageDownloader: UnwrapRef<typeof import('../src/hooks/useImageDownloader')['useImageDownloader']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useRequestChatStream: UnwrapRef<typeof import('../src/hooks/useRequestChatStream')['useRequestChatStream']>
+    readonly useRequestOptimizePrompt: UnwrapRef<typeof import('../src/hooks/useRequestChatStream')['useRequestOptimizePrompt']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>

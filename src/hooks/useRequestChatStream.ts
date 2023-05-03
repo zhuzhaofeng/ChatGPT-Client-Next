@@ -41,3 +41,21 @@ export async function useRequestChatStream(
       options?.onError(e, e?.response?.status)
     })
 }
+
+export async function useRequestOptimizePrompt(sendMessage: MessageModel) {
+  const controller = new AbortController()
+  const configStore = useConfigStore()
+  return axios.post(
+    `${configStore.bootstrap.api}${CHAT_COMPLETIONS}`,
+    sendMessage,
+    {
+      responseType: 'stream',
+      timeout: 3 * 60 * 1000,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      signal: controller.signal
+    }
+  )
+}
