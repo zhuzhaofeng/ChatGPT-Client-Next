@@ -45,7 +45,7 @@ export async function useRequestChatStream(
       }
       // console.log(data)
       if (data?.code === 500) {
-        options?.onError(data?.msg, 500)
+        options?.onError(data?.msg, 5055)
       } else {
         options?.onMessage(res?.data, true)
       }

@@ -18,21 +18,10 @@ export const useDrawStore = defineStore(
       actions: string[]
     }>({
       date: 1683130381673,
-      prompt:
-        'The concept of the picture is a beautiful female warrior in a sailor uniform holding a machine gun. The photo is taken with a Canon EOS 5D Mark IV with a 50mm lens. The parameters are set to capture the details of the uniform and the machine gun, while still having a slightly blurred background. The photo style is bold and dynamic, with a hint of vintage. The color tone is slightly desaturated to give a more rugged feel. The lighting is dramatic, with a strong backlight to highlight the silhouette of the warrior. The atmosphere is intense, with a sense of danger and action. The composition is centered on the warrior, with the machine gun and uniform taking up most of the frame.',
-      image_id: '1103346081670115419',
-      image_url:
-        'https://midjourney.cdn.zhishuyun.com/attachments/1100463152530989130/1103352665959841882/furo_ignoreeab1a28b-11ce-4925-84f6-c906a91d2762_The_concept_of__1d7064bc-d3db-4527-b806-7412ee11765b.png',
-      actions: [
-        'upsample1',
-        'upsample2',
-        'upsample3',
-        'upsample4',
-        'variation1',
-        'variation2',
-        'variation3',
-        'variation4'
-      ]
+      prompt: '',
+      image_id: '',
+      image_url: '',
+      actions: []
     })
     const dallEImage = ref<{
       prompt: string

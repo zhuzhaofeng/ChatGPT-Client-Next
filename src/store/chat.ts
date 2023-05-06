@@ -241,17 +241,17 @@ export const useChatStore = defineStore(
           }
         },
         onError(error: any, statusCode?: number) {
-          // console.log(error)
+          // console.log(error, statusCode)
           fetching.value = false
           if (axios.isCancel(error)) {
             // 手动停止, 不做content操作
-          } else if (statusCode === 500) {
+          } else if (statusCode === 5055) {
             getMessageById(botMessage.id).content = error
             getMessageById(botMessage.id).isError = true
           } else if (statusCode === 401) {
             getMessageById(botMessage.id).content = '请输入积分卡'
           } else {
-            getMessageById(botMessage.id).content +=
+            getMessageById(botMessage.id).content =
               statusCode !== undefined
                 ? `${error?.response?.data || '出错了，稍后重试吧'}`
                 : '网络异常, 请稍后重试!'

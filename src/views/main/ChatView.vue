@@ -283,7 +283,10 @@ const placeholder = computed(() => {
               { 'is-assistant': item.role === 'assistant' }
             ]"
           >
-            <div v-if="item.role === 'assistant'" class="message-item__actions">
+            <div
+              v-if="item.role === 'assistant' && !item?.streaming"
+              class="message-item__actions"
+            >
               <a-tooltip content-class="text-xs" content="复制" position="top">
                 <a-button
                   @click="handleCopyMessage(item.content)"
@@ -306,15 +309,24 @@ const placeholder = computed(() => {
                 </a-button>
               </a-tooltip>
             </div>
-            <MessageContent
-              :key="item.content"
-              :text="item.content"
-              v-if="!item.isError"
-              :inversion="item.role !== 'assistant'"
-            ></MessageContent>
-            <div class="flex items-center gap-x-2" v-else>
-              <icon-close-circle-fill /> {{ item.content }}
-            </div>
+            <a-skeleton
+              v-if="item?.streaming && !item.content"
+              animation
+              class="rounded overflow-hidden"
+            >
+              <a-skeleton-line />
+            </a-skeleton>
+            <template v-else>
+              <MessageContent
+                :key="item.content"
+                :text="item.content"
+                v-if="!item.isError"
+                :inversion="item.role !== 'assistant'"
+              ></MessageContent>
+              <div class="flex items-center gap-x-2" v-else>
+                <icon-close-circle-fill /> {{ item.content }}
+              </div>
+            </template>
           </section>
         </section>
       </a-scrollbar>

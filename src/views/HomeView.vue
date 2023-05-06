@@ -3,7 +3,7 @@ import { Message } from '@arco-design/web-vue'
 
 import { useChatStore } from '@/store/chat'
 
-// const { VITE_FEATURES } = import.meta.env
+const { VITE_FEATURES } = import.meta.env
 
 const router = useRouter()
 type Command = 'Chat_3.5' | 'Chat_4' | 'Midjourney' | 'Dall_E'
@@ -33,12 +33,18 @@ const handleToPage = (command: Command) => {
     router.push({ name: 'Chat' })
   }
   if (command === 'Midjourney') {
-    Message.info('即将上线~')
-    // router.push({ name: 'Midjourney' })
+    if (VITE_FEATURES.includes('MIDJOURNEY')) {
+      router.push({ name: 'Midjourney' })
+    } else {
+      Message.info('即将上线~')
+    }
   }
   if (command === 'Dall_E') {
-    Message.info('即将上线~')
-    // router.push({ name: 'DallE' })
+    if (VITE_FEATURES.includes('DALL_E')) {
+      router.push({ name: 'DallE' })
+    } else {
+      Message.info('即将上线~')
+    }
   }
 }
 </script>

@@ -44,6 +44,8 @@ declare module '@vue/runtime-core' {
     AResult: typeof import('@arco-design/web-vue')['Result']
     AScrollbar: typeof import('@arco-design/web-vue')['Scrollbar']
     ASelect: typeof import('@arco-design/web-vue')['Select']
+    ASkeleton: typeof import('@arco-design/web-vue')['Skeleton']
+    ASkeletonLine: typeof import('@arco-design/web-vue')['SkeletonLine']
     ASlider: typeof import('@arco-design/web-vue')['Slider']
     ASpace: typeof import('@arco-design/web-vue')['Space']
     ASpin: typeof import('@arco-design/web-vue')['Spin']
