@@ -1,4 +1,6 @@
 <script setup lang="ts" :inheritAttrs="false">
+import { Message } from '@arco-design/web-vue'
+
 import { useChatStore } from '@/store/chat'
 
 // const { VITE_FEATURES } = import.meta.env
@@ -31,10 +33,12 @@ const handleToPage = (command: Command) => {
     router.push({ name: 'Chat' })
   }
   if (command === 'Midjourney') {
-    router.push({ name: 'Midjourney' })
+    Message.info('即将上线~')
+    // router.push({ name: 'Midjourney' })
   }
   if (command === 'Dall_E') {
-    router.push({ name: 'DallE' })
+    Message.info('即将上线~')
+    // router.push({ name: 'DallE' })
   }
 }
 </script>
@@ -142,10 +146,10 @@ const handleToPage = (command: Command) => {
 .feature-grid {
   @apply grid grid-cols-1 lg:grid-cols-2  w-full mx-auto gap-2 lg:gap-6 pt-10 lg:pt-4;
   .feature {
-    @apply p-2 lg:p-4 rounded-md cursor-pointer;
+    @apply p-2 lg:p-4 rounded-md cursor-pointer transition-all;
     background-color: var(--color-secondary);
     &:hover {
-      background-color: var(--color-white);
+      background-color: #fff !important;
     }
     .icon {
       @apply text-sm h-6 w-6 lg:h-10 lg:w-10 lg:text-xl p-0 rounded-md;

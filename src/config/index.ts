@@ -2,84 +2,16 @@ import type { ChatModel } from '@/types/chat'
 
 export const APP_TITLE = import.meta.env.VITE_APP_TITLE
 
-export const ALL_MODELS: ChatModel[] = [
-  // 'gpt-4-32k-0314',
-  // 'gpt-4-32k',
-  // 'gpt-4-0314',
-  'gpt-4',
-  // 'gpt-3.5-turbo-0301',
-  'gpt-3.5-turbo'
-  // 'text-davinci-003',
-  // 'text-davinci-002',
-  // 'text-curie-001',
-  // 'text-babbage-001',
-  // 'text-ada-001',
-  // 'text-davinci-001',
-  // 'davinci-instruct-beta',
-  // 'davinci',
-  // 'curie-instruct-beta',
-  // 'curie',
-  // 'ada',
-  // 'babbage'
-]
+export const ALL_MODELS: ChatModel[] = ['gpt-4', 'gpt-3.5-turbo']
 
 export const POINTS_MAP: Record<ChatModel, number> = {
-  'gpt-4': 100,
+  'gpt-4': 50,
   'gpt-3.5-turbo': 3
-  // 'gpt-4-32k-0314': 0,
-  // 'gpt-4-32k': 0,
-  // 'gpt-4-0314': 0,
-  // 'gpt-3.5-turbo-0301': 0,
-  // 'text-davinci-003': 0,
-  // 'text-davinci-002': 0,
-  // 'text-curie-001': 0,
-  // 'text-babbage-001': 0,
-  // 'text-ada-001': 0,
-  // 'text-davinci-001': 0,
-  // 'davinci-instruct-beta': 0,
-  // davinci: 0,
-  // 'curie-instruct-beta': 0,
-  // curie: 0,
-  // ada: 0,
-  // babbage: 0
 }
 
-// openai.GPT3Dot5Turbo0301:   4096,
-// openai.GPT4:                8192,
-// openai.GPT40314:            8192,
-// openai.GPT432K:             32768,
-// openai.GPT432K0314:         32768,
-// openai.CodexCodeDavinci002: 8001,
-// openai.CodexCodeDavinci001: 8001,
-// openai.CodexCodeCushman001: 2048,
-// openai.GPT3TextDavinci003:  4097,
-// openai.GPT3TextDavinci002:  4097,
-// openai.GPT3TextCurie001:    2049,
-// openai.GPT3TextBabbage001:  2049,
-// openai.GPT3TextAda001:      2049,
-// openai.GPT3Davinci:         2049,
-// openai.GPT3Curie:           2049,
-// openai.GPT3Ada:             2049,
-// openai.GPT3Babbage:         2049,
 export const ALL_MODELS_MAX_TOKENS: Record<ChatModel, number> = {
-  // 'gpt-4-32k-0314': 32768,
-  // 'gpt-4-32k': 32768,
-  // 'gpt-4-0314': 1000,
-  // 'gpt-3.5-turbo-0301': 4096,
   'gpt-4': 1000,
   'gpt-3.5-turbo': 4096
-  // 'text-davinci-003': 4097,
-  // 'text-davinci-002': 8001,
-  // 'text-davinci-001': 8001,
-  // 'text-curie-001': 2049,
-  // 'text-babbage-001': 2049,
-  // 'text-ada-001': 2049,
-  // 'davinci-instruct-beta': 2049,
-  // davinci: 2049,
-  // 'curie-instruct-beta': 2049,
-  // curie: 2049,
-  // ada: 2049,
-  // babbage: 2049
 }
 
 export const genTitleTemplate =
