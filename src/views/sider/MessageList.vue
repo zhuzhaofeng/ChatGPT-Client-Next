@@ -42,7 +42,7 @@ const selectedKeys = computed(() => [chatStore.currentChat])
 </script>
 
 <template>
-  <a-layout-sider :width="240" class="chat-message_list">
+  <a-layout-sider key="sider" :width="240" class="chat-message_list">
     <div class="h-full flex flex-col items-stretch overflow-hidden">
       <div class="h-14 flex items-center px-2 gap-x-2 bg-white dark:bg-dark">
         <SelectModelCreation>
@@ -132,12 +132,18 @@ const selectedKeys = computed(() => [chatStore.currentChat])
       </div>
     </div>
   </a-layout-sider>
-  <a-divider v-if="!isDrawer" class="m-0 h-full" direction="vertical" />
+  <!-- <a-divider
+    key="divider"
+    v-if="!isDrawer"
+    class="m-0 h-full"
+    direction="vertical"
+  /> -->
 </template>
 
 <style scoped lang="less">
 .chat-message_list {
   @apply select-none;
+  border-right: 1px solid var(--color-neutral-3);
   &.is-mobile {
     width: 100%;
     height: 100%;

@@ -1,6 +1,5 @@
 import { Message, Modal } from '@arco-design/web-vue'
 import axios from 'axios'
-import { encode } from 'gpt-token-utils'
 import { cloneDeep } from 'lodash-es'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -155,40 +154,6 @@ export const useChatStore = defineStore(
         return messages.slice(messages.length - 20, messages.length)
       }
       return messages
-      // token数量  循环一次 加一次
-      let sum = 0
-      const tokensArray: number[] = []
-      try {
-        // 开始循环
-        messages.reverse().forEach(item => {
-          // 计算当前循环消息的token
-          const tokens = encode(item.content).length
-          tokensArray.push(tokens)
-          // 1. 如果当前token
-          // 2. 如果 token总数 + 当前token数量 < 最大token数量
-          // 直接抛出异常,停止循环
-          if (tokens < maxTokens && sum + tokens < maxTokens) {
-            sum += tokens
-            // 满足条件 加入到需要发送到服务的列表
-            res.push(item as MessageItem)
-          } else {
-            throw new Error()
-          }
-        })
-      } catch (error: any) {
-        // report({ type: 'error', msg: error?.message || error })
-      }
-      // if (res.length < 1) {
-      //   report({ sum, messages, tokenArray })
-      // }
-      // 判断极端情况 sum === 0 并且 tokensArray为空   说明报错了 直接将传入的原始消息发到后台 否则将 保存的结果 发送到后台
-      const resMessages = sum < 1 ? messages : res
-      // 如果> 40条消息 截断
-      if (resMessages.length > 20) {
-        return resMessages.splice(0, 20).reverse()
-      }
-      // 翻转数据  需要将最新的方法 最后
-      return resMessages.reverse()
     }
 
     /** 发送消息 */
@@ -276,21 +241,23 @@ export const useChatStore = defineStore(
           }
         },
         onError(error: any, statusCode?: number) {
+          // console.log(error)
           fetching.value = false
           if (axios.isCancel(error)) {
             // 手动停止, 不做content操作
+          } else if (statusCode === 500) {
+            getMessageById(botMessage.id).content = error
+            getMessageById(botMessage.id).isError = true
           } else if (statusCode === 401) {
             getMessageById(botMessage.id).content = '请输入积分卡'
           } else {
             getMessageById(botMessage.id).content +=
               statusCode !== undefined
-                ? '\n\n' +
-                  `\`${error?.response?.data || '出错了，稍后重试吧'}\``
-                : '\n\n' + '`网络异常, 请稍后重试!`'
+                ? `${error?.response?.data || '出错了，稍后重试吧'}`
+                : '网络异常, 请稍后重试!'
+            getMessageById(botMessage.id).isError = true
           }
           getMessageById(botMessage.id).streaming = false
-          // userMessage.isError = true
-          getMessageById(botMessage.id).isError = true
           getMessageById(botMessage.id).date = new Date().valueOf()
           onMessage && onMessage(true)
         }

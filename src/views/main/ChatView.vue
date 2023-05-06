@@ -277,7 +277,8 @@ const placeholder = computed(() => {
             :class="[
               'message-item__content',
               {
-                'is-user': item.role === 'user'
+                'is-user': item.role === 'user',
+                'is-error': item.isError
               },
               { 'is-assistant': item.role === 'assistant' }
             ]"
@@ -308,8 +309,12 @@ const placeholder = computed(() => {
             <MessageContent
               :key="item.content"
               :text="item.content"
+              v-if="!item.isError"
               :inversion="item.role !== 'assistant'"
             ></MessageContent>
+            <div class="flex items-center gap-x-2" v-else>
+              <icon-close-circle-fill /> {{ item.content }}
+            </div>
           </section>
         </section>
       </a-scrollbar>
@@ -369,6 +374,10 @@ const placeholder = computed(() => {
 
       &.is-assistant {
         @apply bg-white dark:bg-dark;
+        &.is-error {
+          background-color: rgb(var(--red-1)) !important;
+          color: rgb(var(--red-6)) !important;
+        }
       }
     }
 

@@ -31,11 +31,24 @@ export async function useRequestChatStream(
         // console.log(evt)
         if (evt?.event?.target?.status === 200) {
           options?.onMessage(evt?.event?.target?.responseText, false)
+        } else {
+          options?.onError(evt?.event?.target, evt?.event?.target?.status)
         }
       }
     })
     .then(res => {
-      options?.onMessage(res?.data, true)
+      let data: any = ''
+      try {
+        data = JSON.parse(res?.data)
+      } catch (error) {
+        data = res.data
+      }
+      // console.log(data)
+      if (data?.code === 500) {
+        options?.onError(data?.msg, 500)
+      } else {
+        options?.onMessage(res?.data, true)
+      }
     })
     .catch(e => {
       options?.onError(e, e?.response?.status)

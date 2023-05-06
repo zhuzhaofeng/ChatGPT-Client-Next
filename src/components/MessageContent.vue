@@ -35,8 +35,7 @@ const mdi = new MarkdownIt({
 
 mdi.use(mila, { attrs: { target: '_blank', rel: 'noopener' } })
 mdi.use(mdKatex, {
-  blockClass: 'katexmath-block rounded-md p-[10px]',
-  errorColor: ' #cc0000'
+  blockClass: 'katexmath-block rounded-md p-[10px]'
 })
 
 const wrapClass = computed(() => {
@@ -47,14 +46,14 @@ const wrapClass = computed(() => {
     // isMobile.value ? 'p-2' : 'px-3 py-2',
     // text-[#1e1e20]
     props.inversion ? 'text-[#f1f1f1]' : 'bg-[#e5e6eb]',
-    props.inversion ? 'text-[]' : 'dark:bg-[#1e1e20]',
+    props.inversion ? '' : 'dark:bg-[#1e1e20]',
     props.inversion ? 'message-request' : 'message-reply',
-    { 'text-red-500': props.error }
+    { 'is-error': props.error }
   ]
 })
 const removeTrailingNewLines = (text: string) => text.replace(/\n+$/g, '')
 
-const text = computed(() => {
+const content = computed(() => {
   const value = removeTrailingNewLines(props.text ?? '')
   if (!props.asRawText && !props.inversion) return mdi.render(value)
   return value
@@ -79,8 +78,13 @@ onUpdated(() => {
     <template v-else>
       <div ref="textRef" class="leading-relaxed break-words">
         <div v-if="!inversion">
-          <div v-if="!asRawText" class="markdown-body" v-html="text"></div>
-          <div v-else class="whitespace-pre-wrap" v-text="text" />
+          <template v-if="error">
+            {{ text }}
+          </template>
+          <template v-else>
+            <div v-if="!asRawText" class="markdown-body" v-html="content"></div>
+            <div v-else class="whitespace-pre-wrap" v-text="text" />
+          </template>
         </div>
         <div v-else class="whitespace-pre-wrap" v-text="text" />
       </div>
@@ -88,8 +92,11 @@ onUpdated(() => {
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .message-content {
   @apply max-w-max;
+  &.is-error {
+    background-color: transparent !important;
+  }
 }
 </style>
