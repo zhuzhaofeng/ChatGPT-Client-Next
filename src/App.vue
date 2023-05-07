@@ -6,6 +6,7 @@ import { useLayoutStore } from '@/store/layout'
 const { VITE_FEATURES } = import.meta.env
 
 import ContactModel from './components/ContactModel.vue'
+import type { ThemeMode } from './types/theme'
 import MessageListDrawer from './views/sider/MessageListDrawer.vue'
 import SettingDrawer from './views/sider/SettingDrawer.vue'
 
@@ -27,6 +28,10 @@ const handleMenuItemClick = (name: string) => {
 const handleToRouter = (path: string) => {
   popupVisible.value = false
   router.push(path)
+}
+
+const handleChangeTheme = (v: string | number | boolean) => {
+  layoutStore.changeModeAction(v as unknown as ThemeMode)
 }
 </script>
 
@@ -117,6 +122,16 @@ const handleToRouter = (path: string) => {
           <ChangeChatModel v-if="$route.name !== 'Draw'" class="w-48 mr-2" />
         </div>
       </a-input-group> -->
+      <a-radio-group
+        :model-value="layoutStore.themeMode"
+        type="button"
+        class="mr-4"
+        @change="handleChangeTheme"
+      >
+        <a-radio value="light"><icon-sun /></a-radio>
+        <a-radio value="dark"><icon-moon /></a-radio>
+        <!-- <a-radio value="auto"><icon-relation /></a-radio> -->
+      </a-radio-group>
       <SetupCard
         v-if="!isMobileScreen && !route.meta.hideSetup"
         class="w-60 mr-2"

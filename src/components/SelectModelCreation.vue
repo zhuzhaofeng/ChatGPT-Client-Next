@@ -5,6 +5,7 @@ import type { ChatModel } from '@/types/chat'
 const visible = ref(false)
 const layoutStore = useLayoutStore()
 const chatStore = useChatStore()
+const { isMobileScreen } = useWindowSize()
 
 const model = ref<ChatModel>('gpt-3.5-turbo')
 const models: { key: ChatModel; desc: string }[] = [
@@ -39,6 +40,7 @@ const handleCancel = () => {
     v-model:visible="visible"
     @ok="handleOk"
     @cancel="handleCancel"
+    :modal-style="{ 'max-width': '80%' }"
     okText="创建"
   >
     <template #title>选择模型</template>
@@ -55,7 +57,14 @@ const handleCancel = () => {
                 <div class="custom-radio-card-mask-dot" />
               </div>
               <div class="flex flex-col">
-                <div class="flex items-center gap-x-6">
+                <div
+                  class="flex gap-x-6"
+                  :class="
+                    isMobileScreen
+                      ? 'flex-col items-start mb-2'
+                      : 'flex-row items-center'
+                  "
+                >
                   <div class="custom-radio-card-title">
                     {{ item.key }}
                   </div>
