@@ -48,11 +48,18 @@ if (VITE_FEATURES.includes('TOOLS')) {
   })
 }
 
-if (VITE_FEATURES.includes('DRAW')) {
+if (VITE_FEATURES.includes('DALL_E')) {
   routes.push({
-    path: '/draw',
-    name: 'Draw',
-    component: () => import('@/views/main/DrawView.vue')
+    path: '/dall-e',
+    name: 'DallE',
+    component: () => import('@/views/main/DallE.vue')
+  })
+}
+if (VITE_FEATURES.includes('MIDJOURNEY')) {
+  routes.push({
+    path: '/mj',
+    name: 'Midjourney',
+    component: () => import('@/views/main/MidjourneyView.vue')
   })
 }
 

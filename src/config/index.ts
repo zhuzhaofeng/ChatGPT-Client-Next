@@ -1,99 +1,24 @@
 import type { ChatModel } from '@/types/chat'
 
 export const APP_TITLE = import.meta.env.VITE_APP_TITLE
+
 export const WECHAT_URL = import.meta.env.VITE_WECHAT_URL
 export const E_WECHAT_URL = import.meta.env.VITE_E_WECHAT_URL
-export const ALL_MODELS: ChatModel[] = [
-  // 'gpt-4-32k-0314',
-  // 'gpt-4-32k',
-  // 'gpt-4-0314',
-  'gpt-4',
-  // 'gpt-3.5-turbo-0301',
-  'gpt-3.5-turbo'
-  // 'text-davinci-003',
-  // 'text-davinci-002',
-  // 'text-curie-001',
-  // 'text-babbage-001',
-  // 'text-ada-001',
-  // 'text-davinci-001',
-  // 'davinci-instruct-beta',
-  // 'davinci',
-  // 'curie-instruct-beta',
-  // 'curie',
-  // 'ada',
-  // 'babbage'
-]
+
+export const ALL_MODELS: ChatModel[] = ['gpt-4', 'gpt-3.5-turbo']
 
 export const POINTS_MAP: Record<ChatModel, number> = {
   'gpt-4': 20,
-  'gpt-3.5-turbo': 3,
-  'gpt-4-32k-0314': 0,
-  'gpt-4-32k': 0,
-  'gpt-4-0314': 0,
-  'gpt-3.5-turbo-0301': 0,
-  'text-davinci-003': 0,
-  'text-davinci-002': 0,
-  'text-curie-001': 0,
-  'text-babbage-001': 0,
-  'text-ada-001': 0,
-  'text-davinci-001': 0,
-  'davinci-instruct-beta': 0,
-  davinci: 0,
-  'curie-instruct-beta': 0,
-  curie: 0,
-  ada: 0,
-  babbage: 0
+  'gpt-3.5-turbo': 3
 }
 
-// openai.GPT3Dot5Turbo0301:   4096,
-// openai.GPT4:                8192,
-// openai.GPT40314:            8192,
-// openai.GPT432K:             32768,
-// openai.GPT432K0314:         32768,
-// openai.CodexCodeDavinci002: 8001,
-// openai.CodexCodeDavinci001: 8001,
-// openai.CodexCodeCushman001: 2048,
-// openai.GPT3TextDavinci003:  4097,
-// openai.GPT3TextDavinci002:  4097,
-// openai.GPT3TextCurie001:    2049,
-// openai.GPT3TextBabbage001:  2049,
-// openai.GPT3TextAda001:      2049,
-// openai.GPT3Davinci:         2049,
-// openai.GPT3Curie:           2049,
-// openai.GPT3Ada:             2049,
-// openai.GPT3Babbage:         2049,
 export const ALL_MODELS_MAX_TOKENS: Record<ChatModel, number> = {
-  'gpt-4-32k-0314': 32768,
-  'gpt-4-32k': 32768,
-  'gpt-4-0314': 1000,
   'gpt-4': 1000,
-  'gpt-3.5-turbo-0301': 4096,
-  'gpt-3.5-turbo': 4096,
-  'text-davinci-003': 4097,
-  'text-davinci-002': 8001,
-  'text-davinci-001': 8001,
-  'text-curie-001': 2049,
-  'text-babbage-001': 2049,
-  'text-ada-001': 2049,
-  'davinci-instruct-beta': 2049,
-  davinci: 2049,
-  'curie-instruct-beta': 2049,
-  curie: 2049,
-  ada: 2049,
-  babbage: 2049
+  'gpt-3.5-turbo': 4096
 }
 
 export const genTitleTemplate =
   '使用四到五个字直接返回这句话的简要主题，不要解释、不要标点、不要语气词、不要多余文本，如果没有主题，请直接返回“闲聊”'
-
-/** POST 聊天接口 */
-export const CHAT_COMPLETIONS = '/v1/chat/completions'
-
-/** GET 查询卡密积分 */
-export const QUERY_CARD = '/v1/card'
-
-/** POST 图片生成 */
-export const IMAGES_GENERATIONS = '/v1/images/generations'
 
 export const DRAW_PROMPT = [
   {
@@ -145,3 +70,37 @@ export const DRAW_PROMPT = [
     keywords: '数码艺术、VR艺术、游戏美术、互动媒体、AR/VR技术'
   }
 ]
+
+/** 优化描述 */
+export const OPTIMIZE_DATA = (content: string, card?: string) => ({
+  card,
+  messages: [
+    {
+      role: 'system',
+      content:
+        '你将扮演一个摄影师，你将在一行中写下描述，不使用换行符。首先是图片概念描绘什么画面内容，流畅的附加这些关键字：拍摄机器的型号、参数、照片风格、色调、灯光、氛围、构图等。控制在2-6行文字以内。全程用英文书写描述'
+    },
+    {
+      role: 'user',
+      content
+    }
+  ],
+  model: 'gpt-3.5-turbo',
+  temperature: 0.7,
+  is_stream: false
+})
+
+/** POST 聊天接口 */
+export const CHAT_COMPLETIONS = '/v1/chat/completions'
+
+/** POST 聊天接口 gpt 4 */
+export const CHAT_COMPLETIONS_4 = '/v1/completions'
+
+/** GET 查询卡密积分 */
+export const QUERY_CARD = '/v1/card'
+
+/** POST 图片生成 */
+export const IMAGES_GENERATIONS = '/v1/images/generations'
+
+/** POST MJ 图片生成 */
+export const MJ_GENERATIONS = '/v1/mj-generations'

@@ -119,9 +119,9 @@ onUnmounted(() => {
  * 修改当前标题
  * @param value string 标题
  */
-const handleEditEnd = () => {
-  chatStore.handleChangeSessionTopicAction(currentTitle.value)
-}
+// const handleEditEnd = () => {
+//   chatStore.handleChangeSessionTopicAction(currentTitle.value)
+// }
 
 const handleEnter = (event: KeyboardEvent) => {
   if (!isMobileScreen.value) {
@@ -251,12 +251,16 @@ const placeholder = computed(() => {
             :class="[
               'message-item__content',
               {
-                'is-user': item.role === 'user'
+                'is-user': item.role === 'user',
+                'is-error': item.isError
               },
               { 'is-assistant': item.role === 'assistant' }
             ]"
           >
-            <div v-if="item.role === 'assistant'" class="message-item__actions">
+            <div
+              v-if="item.role === 'assistant' && !item?.streaming"
+              class="message-item__actions"
+            >
               <a-tooltip content-class="text-xs" content="复制" position="top">
                 <a-button
                   @click="handleCopyMessage(item.content)"
@@ -279,16 +283,29 @@ const placeholder = computed(() => {
                 </a-button>
               </a-tooltip>
             </div>
-            <MessageContent
-              :key="item.content"
-              :text="item.content"
-              :inversion="item.role !== 'assistant'"
-            ></MessageContent>
+            <a-skeleton
+              v-if="item?.streaming && !item.content"
+              animation
+              class="rounded overflow-hidden"
+            >
+              <a-skeleton-line />
+            </a-skeleton>
+            <template v-else>
+              <MessageContent
+                :key="item.content"
+                :text="item.content"
+                v-if="!item.isError"
+                :inversion="item.role !== 'assistant'"
+              ></MessageContent>
+              <div class="flex items-center gap-x-2" v-else>
+                <icon-close-circle-fill /> {{ item.content }}
+              </div>
+            </template>
           </section>
         </section>
       </a-scrollbar>
       <a-divider class="m-0" />
-      <footer class="chat-footer">
+      <footer v-if="session?.id" class="chat-footer">
         <!-- <a-spin :loading="chatStore.fetching" class="footer-spin">
           <template #icon> </template>
         </a-spin> -->
@@ -343,14 +360,15 @@ const placeholder = computed(() => {
 
       &.is-assistant {
         @apply bg-white dark:bg-dark;
+        &.is-error {
+          background-color: rgb(var(--red-1)) !important;
+          color: rgb(var(--red-6)) !important;
+        }
       }
     }
 
     .message-item__actions {
-      @apply flex items-center gap-x-1 pl-4 absolute -top-9 right-8 opacity-0  transition-all duration-500;
-    }
-    &:hover .message-item__actions {
-      @apply right-0 opacity-100;
+      @apply flex items-center gap-x-1 pl-4 absolute -top-9 right-0  transition-all duration-500;
     }
   }
 }

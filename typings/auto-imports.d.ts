@@ -8,10 +8,13 @@ declare global {
   const ALL_MODELS_MAX_TOKENS: typeof import('../src/config/index')['ALL_MODELS_MAX_TOKENS']
   const APP_TITLE: typeof import('../src/config/index')['APP_TITLE']
   const CHAT_COMPLETIONS: typeof import('../src/config/index')['CHAT_COMPLETIONS']
+  const CHAT_COMPLETIONS_4: typeof import('../src/config/index')['CHAT_COMPLETIONS_4']
   const DRAW_PROMPT: typeof import('../src/config/index')['DRAW_PROMPT']
   const E_WECHAT_URL: typeof import('../src/config/index')['E_WECHAT_URL']
   const EffectScope: typeof import('vue')['EffectScope']
   const IMAGES_GENERATIONS: typeof import('../src/config/index')['IMAGES_GENERATIONS']
+  const MJ_GENERATIONS: typeof import('../src/config/index')['MJ_GENERATIONS']
+  const OPTIMIZE_DATA: typeof import('../src/config/index')['OPTIMIZE_DATA']
   const POINTS_MAP: typeof import('../src/config/index')['POINTS_MAP']
   const QUERY_CARD: typeof import('../src/config/index')['QUERY_CARD']
   const WECHAT_URL: typeof import('../src/config/index')['WECHAT_URL']
@@ -75,6 +78,7 @@ declare global {
   const useCssVars: typeof import('vue')['useCssVars']
   const useLink: typeof import('vue-router')['useLink']
   const useRequestChatStream: typeof import('../src/hooks/useRequestChatStream')['useRequestChatStream']
+  const useRequestOptimizePrompt: typeof import('../src/hooks/useRequestChatStream')['useRequestOptimizePrompt']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
@@ -97,10 +101,13 @@ declare module 'vue' {
     readonly ALL_MODELS_MAX_TOKENS: UnwrapRef<typeof import('../src/config/index')['ALL_MODELS_MAX_TOKENS']>
     readonly APP_TITLE: UnwrapRef<typeof import('../src/config/index')['APP_TITLE']>
     readonly CHAT_COMPLETIONS: UnwrapRef<typeof import('../src/config/index')['CHAT_COMPLETIONS']>
+    readonly CHAT_COMPLETIONS_4: UnwrapRef<typeof import('../src/config/index')['CHAT_COMPLETIONS_4']>
     readonly DRAW_PROMPT: UnwrapRef<typeof import('../src/config/index')['DRAW_PROMPT']>
     readonly E_WECHAT_URL: UnwrapRef<typeof import('../src/config/index')['E_WECHAT_URL']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly IMAGES_GENERATIONS: UnwrapRef<typeof import('../src/config/index')['IMAGES_GENERATIONS']>
+    readonly MJ_GENERATIONS: UnwrapRef<typeof import('../src/config/index')['MJ_GENERATIONS']>
+    readonly OPTIMIZE_DATA: UnwrapRef<typeof import('../src/config/index')['OPTIMIZE_DATA']>
     readonly POINTS_MAP: UnwrapRef<typeof import('../src/config/index')['POINTS_MAP']>
     readonly QUERY_CARD: UnwrapRef<typeof import('../src/config/index')['QUERY_CARD']>
     readonly WECHAT_URL: UnwrapRef<typeof import('../src/config/index')['WECHAT_URL']>
@@ -164,6 +171,7 @@ declare module 'vue' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useRequestChatStream: UnwrapRef<typeof import('../src/hooks/useRequestChatStream')['useRequestChatStream']>
+    readonly useRequestOptimizePrompt: UnwrapRef<typeof import('../src/hooks/useRequestChatStream')['useRequestOptimizePrompt']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>

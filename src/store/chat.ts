@@ -1,15 +1,18 @@
 import { Message, Modal } from '@arco-design/web-vue'
 import axios from 'axios'
-import { encode } from 'gpt-token-utils'
 import { cloneDeep } from 'lodash-es'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import { useRequestChatStream } from '@/hooks/useRequestChatStream'
-import type { ChatItem, MessageItem, MessageModel } from '@/types/chat'
+import type {
+  ChatItem,
+  ChatModel,
+  MessageItem,
+  MessageModel
+} from '@/types/chat'
 import { createMessage } from '@/utils'
 
-import { ALL_MODELS_MAX_TOKENS } from './../config/index'
 import { useConfigStore } from './config'
 
 export const useChatStore = defineStore(
@@ -19,6 +22,7 @@ export const useChatStore = defineStore(
     const abortController = ref<AbortController>(new AbortController())
     const newChat: ChatItem = {
       id: genNonDuplicateID(),
+      model: 'gpt-3.5-turbo',
       topic: '',
       sendMemory: true,
       messages: [],
@@ -35,7 +39,7 @@ export const useChatStore = defineStore(
     })
 
     /** 新加一个聊天 */
-    const newChatAction = () => {
+    const newChatAction = (model: ChatModel = 'gpt-3.5-turbo') => {
       if (abortController.value?.abort) {
         abortController.value?.abort()
       }
@@ -43,6 +47,7 @@ export const useChatStore = defineStore(
       sessions.value.unshift(
         cloneDeep({
           ...newChat,
+          model,
           topic: '',
           id
         })
@@ -62,7 +67,7 @@ export const useChatStore = defineStore(
         content: '是否确认移除所有会话信息, 此操作不可逆!!!',
         onOk() {
           sessions.value = []
-          newChatAction()
+          // newChatAction()
         }
       })
     }
@@ -98,7 +103,7 @@ export const useChatStore = defineStore(
               abortController.value?.abort()
             }
             if (sessions.value.length === 0) {
-              newChatAction()
+              // newChatAction()
             }
           }
         }
@@ -118,9 +123,9 @@ export const useChatStore = defineStore(
     /** 获取需要携带的消息 */
     const getRequiredMessages = async (curr: Partial<MessageItem>) => {
       // 最大token
-      const maxTokens = ALL_MODELS_MAX_TOKENS[configStore.chatModel] || 2049
-      // 保存返回结果
-      const res = <MessageItem[]>[]
+      // const maxTokens = ALL_MODELS_MAX_TOKENS[configStore.chatModel] || 2049
+      // // 保存返回结果
+      // const res = <MessageItem[]>[]
       // 历史消息 过滤错误消息
       const sMs = (session.value?.messages || []).filter(item => !item.isError)
       // 当前所有的历史消息  (过滤后的消息 + 当前发送的)
@@ -148,40 +153,6 @@ export const useChatStore = defineStore(
         return messages.slice(messages.length - 20, messages.length)
       }
       return messages
-      // token数量  循环一次 加一次
-      let sum = 0
-      const tokensArray: number[] = []
-      try {
-        // 开始循环
-        messages.reverse().forEach(item => {
-          // 计算当前循环消息的token
-          const tokens = encode(item.content).length
-          tokensArray.push(tokens)
-          // 1. 如果当前token
-          // 2. 如果 token总数 + 当前token数量 < 最大token数量
-          // 直接抛出异常,停止循环
-          if (tokens < maxTokens && sum + tokens < maxTokens) {
-            sum += tokens
-            // 满足条件 加入到需要发送到服务的列表
-            res.push(item as MessageItem)
-          } else {
-            throw new Error()
-          }
-        })
-      } catch (error: any) {
-        // report({ type: 'error', msg: error?.message || error })
-      }
-      // if (res.length < 1) {
-      //   report({ sum, messages, tokenArray })
-      // }
-      // 判断极端情况 sum === 0 并且 tokensArray为空   说明报错了 直接将传入的原始消息发到后台 否则将 保存的结果 发送到后台
-      const resMessages = sum < 1 ? messages : res
-      // 如果> 40条消息 截断
-      if (resMessages.length > 20) {
-        return resMessages.splice(0, 20).reverse()
-      }
-      // 翻转数据  需要将最新的方法 最后
-      return resMessages.reverse()
     }
 
     /** 发送消息 */
@@ -194,18 +165,31 @@ export const useChatStore = defineStore(
         Message.error('请输入您的消息')
         return
       }
-      const messages = await getRequiredMessages({ role: 'user', content })
-      // if (messages.length < 1) {
-      //   Message.error(`超出模型允许的最大字数，请删减字符`)
-      //   return
-      // }
-      const reqData: MessageModel = {
-        card: configStore.cardInfo?.enable ? configStore.card : undefined,
-        messages,
-        temperature: configStore.temperature,
-        model: configStore.chatModel,
-        is_stream: true
+      let reqData: MessageModel
+      if (session.value?.model === 'gpt-4') {
+        const messages = (session.value?.messages ?? []).filter(
+          ({ role }) => role === 'assistant'
+        )
+        reqData = {
+          card: configStore.cardInfo?.enable ? configStore.card : undefined,
+          model: 'gpt-4',
+          question: content,
+          conversation_id:
+            Array.isArray(messages) && messages?.length > 0
+              ? messages[messages.length - 1].conversation_id
+              : undefined
+        }
+      } else {
+        const messages = await getRequiredMessages({ role: 'user', content })
+        reqData = {
+          card: configStore.cardInfo?.enable ? configStore.card : undefined,
+          messages,
+          temperature: configStore.temperature,
+          model: 'gpt-3.5-turbo',
+          is_stream: true
+        }
       }
+
       const userMessage: MessageItem = createMessage({
         role: 'user',
         content
@@ -218,6 +202,7 @@ export const useChatStore = defineStore(
         streaming: true,
         content: ''
       })
+
       session.value!.messages.push(botMessage)
 
       fetching.value = true
@@ -227,35 +212,59 @@ export const useChatStore = defineStore(
           abortController.value = ctl
         },
         onMessage(message: string, done: boolean) {
-          getMessageById(botMessage.id).content = message
-          onMessage && onMessage(done)
+          // console.log(message)
+          if (!session.value?.topic) {
+            const topic = userMessage.content.trim().replace(/\r/g, '')
+            session.value!.topic =
+              topic.length > 30 ? topic.slice(0, 30) : topic
+          }
+          if (session.value?.model === 'gpt-4') {
+            const arr: {
+              answer: string
+              conversation_id: string
+              delta_answer: string
+            }[] = JSON.parse(`[${message.replace(/}{/g, '},{')}]`)
+            const currentMessage = arr.pop()
+
+            getMessageById(botMessage.id).content = currentMessage?.answer || ''
+            getMessageById(botMessage.id).conversation_id =
+              currentMessage?.conversation_id
+          } else {
+            getMessageById(botMessage.id).content = message
+          }
           if (done) {
+            onMessage && onMessage(done)
             fetching.value = false
             getMessageById(botMessage.id).streaming = false
             getMessageById(botMessage.id).date = new Date().valueOf()
-            if (!session.value?.topic) {
-              const topic = userMessage.content.trim().replace(/\r/g, '')
-              session.value!.topic =
-                topic.length > 30 ? topic.slice(0, 30) : topic
-            }
           }
         },
         onError(error: any, statusCode?: number) {
+          // console.log(error, statusCode)
           fetching.value = false
           if (axios.isCancel(error)) {
             // 手动停止, 不做content操作
+          } else if (statusCode === 5055) {
+            getMessageById(botMessage.id).content = getMessageById(
+              botMessage.id
+            ).content
+              ? getMessageById(botMessage.id).content + '\n' + error
+              : error
+            getMessageById(botMessage.id).isError = true
           } else if (statusCode === 401) {
             getMessageById(botMessage.id).content = '请输入积分卡'
           } else {
-            getMessageById(botMessage.id).content +=
-              statusCode !== undefined
-                ? '\n\n' +
-                  `\`${error?.response?.data || '出错了，稍后重试吧'}\``
-                : '\n\n' + '`网络异常, 请稍后重试!`'
+            getMessageById(botMessage.id).content = getMessageById(
+              botMessage.id
+            ).content
+              ? statusCode !== undefined
+                ? `${error?.response?.data || '出错了，稍后重试吧'}`
+                : '网络异常, 请稍后重试!'
+              : error
+
+            getMessageById(botMessage.id).isError = true
           }
           getMessageById(botMessage.id).streaming = false
-          // userMessage.isError = true
-          getMessageById(botMessage.id).isError = true
           getMessageById(botMessage.id).date = new Date().valueOf()
           onMessage && onMessage(true)
         }
@@ -283,7 +292,7 @@ export const useChatStore = defineStore(
       // sessions.value = []
       fetching.value = false
       if (sessions.value?.length < 1) {
-        newChatAction()
+        // newChatAction()
       } else {
         sessions.value.forEach(item => {
           item.messages.forEach(item => {

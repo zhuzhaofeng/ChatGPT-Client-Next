@@ -9,8 +9,7 @@ import { version } from '../../../package.json'
 const configStore = useConfigStore()
 const themeTitleMap: Record<ThemeMode, string> = {
   light: '浅色模式',
-  dark: '深色模式',
-  auto: '跟随系统'
+  dark: '深色模式'
 }
 const layoutStore = useLayoutStore()
 const { isMobileScreen } = useWindowSize()
@@ -52,13 +51,13 @@ const handleChangeTheme = (v: string | number | boolean) => {
         </div>
 
         <div class="setting-card dark:bg-dark">
-          <a-form-item
+          <!-- <a-form-item
             class="mb-0"
             field="modelConfig.model"
             label="模型(Model)"
           >
             <ChangeChatModel class="w-full" />
-          </a-form-item>
+          </a-form-item> -->
           <a-form-item
             class="mb-0"
             field="modelConfig.temperature"
@@ -98,7 +97,7 @@ const handleChangeTheme = (v: string | number | boolean) => {
               >
                 <a-radio value="light"><icon-sun /></a-radio>
                 <a-radio value="dark"><icon-moon /></a-radio>
-                <a-radio value="auto"><icon-relation /></a-radio>
+                <!-- <a-radio value="auto"><icon-relation /></a-radio> -->
               </a-radio-group>
               <span class="font-medium pl-4 text-primary">
                 {{ themeTitleMap[layoutStore.themeMode] }}

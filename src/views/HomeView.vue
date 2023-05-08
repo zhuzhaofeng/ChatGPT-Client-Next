@@ -1,23 +1,50 @@
 <script setup lang="ts" :inheritAttrs="false">
 import { Message } from '@arco-design/web-vue'
 
-import { useConfigStore } from '@/store/config'
+import { useChatStore } from '@/store/chat'
 
 const { VITE_FEATURES } = import.meta.env
+
 const router = useRouter()
-const configStore = useConfigStore()
-const handleToPage = (command: 'Chat_3.5' | 'Chat_4' | 'Draw') => {
+type Command = 'Chat_3.5' | 'Chat_4' | 'Midjourney' | 'Dall_E'
+// const configStore = useConfigStore()
+const chatStore = useChatStore()
+const handleToPage = (command: Command) => {
+  const sessions = chatStore.sessions
   if (command === 'Chat_3.5') {
-    configStore.changeChatModelAction('gpt-3.5-turbo')
+    if (
+      sessions.length < 1 ||
+      sessions[0]?.model === 'gpt-4' ||
+      ((!sessions[0]?.model || sessions[0]?.model == 'gpt-3.5-turbo') &&
+        sessions[0]?.messages.length > 0)
+    ) {
+      chatStore.newChatAction()
+    }
     router.push({ name: 'Chat' })
   }
   if (command === 'Chat_4') {
-    configStore.changeChatModelAction('gpt-4')
-
+    if (
+      sessions.length < 1 ||
+      sessions[0]?.model === 'gpt-3.5-turbo' ||
+      (sessions[0]?.model == 'gpt-4' && sessions[0]?.messages.length > 0)
+    ) {
+      chatStore.newChatAction('gpt-4')
+    }
     router.push({ name: 'Chat' })
   }
-  if (command === 'Draw') {
-    Message.info('即将推出')
+  if (command === 'Midjourney') {
+    if (VITE_FEATURES.includes('MIDJOURNEY')) {
+      router.push({ name: 'Midjourney' })
+    } else {
+      Message.info('即将上线~')
+    }
+  }
+  if (command === 'Dall_E') {
+    if (VITE_FEATURES.includes('DALL_E')) {
+      router.push({ name: 'DallE' })
+    } else {
+      Message.info('即将上线~')
+    }
   }
 }
 </script>
@@ -58,7 +85,7 @@ const handleToPage = (command: 'Chat_3.5' | 'Chat_4' | 'Draw') => {
           基于GPT-3.5的升级版，具有更⾼级的智能、更强⼤的学习能⼒和更⼴泛的知识覆盖范围
         </p>
       </div>
-      <div @click="handleToPage('Draw')" class="feature dark:bg-dark">
+      <div @click="handleToPage('Midjourney')" class="feature dark:bg-dark">
         <!-- <a-button class="icon bg-gray-200 dark:bg-dark-900">📝</a-button> -->
         <a-button class="icon bg-gray-200 dark:bg-dark-900">
           <img class="w-2/3" src="@/assets/mj-180x180.png" alt="GPT-4" />
@@ -84,7 +111,7 @@ const handleToPage = (command: 'Chat_3.5' | 'Chat_4' | 'Draw') => {
         </p>
       </a>
     </div>
-    <div class="flex items-center justify-center mt-6 gap-x-6">
+    <!-- <div class="flex items-center justify-center mt-6 gap-x-6">
       <a-button
         type="primary"
         shape="round"
@@ -112,7 +139,7 @@ const handleToPage = (command: 'Chat_3.5' | 'Chat_4' | 'Draw') => {
       >
         工具
       </a-button>
-    </div>
+    </div> -->
   </a-scrollbar>
 </template>
 
@@ -127,11 +154,15 @@ const handleToPage = (command: 'Chat_3.5' | 'Chat_4' | 'Draw') => {
     @apply text-base lg:text-xl;
   }
 }
+
 .feature-grid {
-  @apply grid grid-cols-1 lg:grid-cols-2 w-full mx-auto gap-2 lg:gap-6  pt-2 lg:pt-4;
+  @apply grid grid-cols-1 lg:grid-cols-2  w-full mx-auto gap-2 lg:gap-6 pt-10 lg:pt-4;
   .feature {
-    @apply p-2 lg:p-4 rounded-md cursor-pointer;
+    @apply p-2 lg:p-4 rounded-md cursor-pointer transition-all;
     background-color: var(--color-secondary);
+    &:hover {
+      @apply bg-white dark:bg-dark;
+    }
     .icon {
       @apply text-sm h-6 w-6 lg:h-10 lg:w-10 lg:text-xl p-0 rounded-md;
     }
@@ -139,7 +170,8 @@ const handleToPage = (command: 'Chat_3.5' | 'Chat_4' | 'Draw') => {
       @apply text-sm lg:text-base dark:text-gray-300;
     }
     .details {
-      @apply text-xs lg:text-sm  dark:text-gray-500;
+      @apply text-xs lg:text-sm;
+      color: var(--color-text-2);
     }
   }
 }

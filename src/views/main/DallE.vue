@@ -4,15 +4,14 @@ const { isMobileScreen } = useWindowSize()
 import { Message, Modal } from '@arco-design/web-vue'
 import { chunk } from 'lodash-es'
 
-import { useBeforeunload } from '@/hooks/useBeforeunload'
 import { useDrawStore } from '@/store/draw'
 
 const formState = reactive({
   prompt: '',
   size: '256x256',
   n: 1,
-  // response_format: 'url'
-  response_format: 'b64_json'
+  response_format: 'url'
+  // response_format: 'b64_json'
 })
 const drawPromptIndex = ref(0)
 const currentDrawPrompt = computed(
@@ -29,7 +28,6 @@ const handleChangeKeyword = () => {
 const drawStore = useDrawStore()
 const loading = computed(() => drawStore.loading)
 
-useBeforeunload(loading)
 onBeforeRouteLeave(async () => {
   if (!loading.value) return true
   return await new Promise<boolean>((resolve, reject) => {
@@ -55,7 +53,9 @@ const handleDrawImage = () => {
   }
   drawStore.imageDrawAction(formState)
 }
-const draws = computed(() => drawStore.draws)
+const dallEImage = computed(() => drawStore.dallEImage)
+const previewVisible = ref(false)
+const { downloadImage } = useImageDownloader()
 </script>
 
 <template>
@@ -68,7 +68,7 @@ const draws = computed(() => drawStore.draws)
         <template #icon>
           <icon-exclamation-circle-fill />
         </template>
-        根据输入关键词生成~大约需要30s左右时间
+        根据输入关键词生成~大约需要30s左右时间,每张图片 20 积分
       </a-alert>
 
       <div class="flex items-center gap-x-5">
@@ -147,12 +147,7 @@ const draws = computed(() => drawStore.draws)
           </div>
           <!-- </a-radio-group> -->
         </a-form-item>
-        <a-form-item
-          help="每张图片 20 积分"
-          validate-status="warning"
-          label="图片数量"
-          class="mb-2"
-        >
+        <a-form-item validate-status="warning" label="图片数量" class="mb-2">
           <div
             class="w-full"
             :class="{ 'grid grid-cols-5 gap-y-2': isMobileScreen }"
@@ -169,63 +164,71 @@ const draws = computed(() => drawStore.draws)
             </a-radio>
           </div>
         </a-form-item>
-        <!-- <a-divider></a-divider>
-        <a-form-item label="修饰词参考" class="mb-2" justify="start">
-          <a-typography-paragraph type="secondary" class="mb-0 text-sm">
-            您可参考或选用下列各类修饰词丰富您的输入文本, 尝试生成更多样的图像,
-            更多修饰词可参考 Prompt指南 或自由输入 探索大型作画等多未知能力,
-          </a-typography-paragraph>
-        </a-form-item>
-        <a-form-item label="图像类型" class="mb-2">
-          <a-typography-paragraph type="secondary" class="mb-0 text-sm">
-            古风、二次元、写实照片、油画、水彩画、油墨画、黑白雕版画、雕塑、3D模型、、手绘草图、炭笔画、极简线条画、浮世绘、电影质感、机械感
-          </a-typography-paragraph>
-        </a-form-item> -->
       </a-form>
-      <a-tabs v-if="draws.length" class="mt-6" type="capsule">
-        <a-tab-pane key="1" title="我的作品">
-          <a-collapse :default-active-key="[1]" accordion>
-            <a-collapse-item v-for="item in draws.reverse()" :key="item.date">
-              <template #extra>
-                <a-tag color="red" size="small">{{ item.urls.length }}张</a-tag>
-              </template>
-              <template #header>
-                <div class="flex flex-col gap-y-1 select-none">
-                  <a-typography-paragraph
-                    class="mb-0"
-                    :ellipsis="{ rows: 1, expandable: true }"
-                  >
-                    {{ item.prompt }}
-                  </a-typography-paragraph>
-                  <small
-                    :style="{ color: 'var(--color-text-3)' }"
-                    v-date-time="item.date * 1000"
-                  ></small>
-                </div>
-              </template>
-
-              <a-image-preview-group infinite>
-                <div
-                  class="grid gap-3"
-                  :class="[isMobileScreen ? 'grid-cols-2' : 'grid-cols-5']"
-                >
-                  <a-image v-for="url in item.urls" :key="url" :src="url" />
-                </div>
-              </a-image-preview-group>
-              <a-alert
-                type="info"
-                class="max-w-max mx-auto rounded-full text-xs my-4"
-              >
-                <template #icon>
-                  <icon-exclamation-circle-fill />
-                </template>
-                尺寸: {{ item.size }}
-              </a-alert>
-            </a-collapse-item>
-          </a-collapse>
-        </a-tab-pane>
-      </a-tabs>
+      <div class="flex flex-col items-start gap-y-3">
+        <a-divider orientation="center"> 结果区域 </a-divider>
+        <a-alert type="warning">
+          <div class="flex flex-col gap-1">
+            <a-typography-text class="text-xs font-semibold" type="secondary">
+              仅保存最近一次生成记录, 关闭浏览器不保存, 请及时下载
+            </a-typography-text>
+            <a-typography-text class="text-xs" type="secondary">
+              在电脑浏览器中，可以通过右键点击图片并选择“另存为”选项将图片保存到本地。
+            </a-typography-text>
+            <a-typography-text class="text-xs" type="secondary">
+              在手机浏览器中，可以通过长按图片并选择“保存图片”选项将图片保存到本地。
+            </a-typography-text>
+          </div>
+        </a-alert>
+        <div v-if="dallEImage?.date" class="flex items-center gap-3 flex-wrap">
+          <a-image-preview-group infinite>
+            <a-image
+              v-for="url in dallEImage?.urls || []"
+              :key="url"
+              :width="256"
+              show-loader
+              class="min-h-40"
+              :src="url"
+            >
+            </a-image>
+          </a-image-preview-group>
+        </div>
+      </div>
     </div>
+    <!-- <div
+      class="mt-4 p-4 bg-light-300 dark:bg-dark-900 rounded"
+      v-if="dallEImage?.date"
+    >
+      <div class="flex items-center gap-x-6">
+        <span
+          :style="{ color: 'var(--color-text-3)' }"
+          v-date-time="dallEImage.date * 1000"
+        ></span>
+        <a-tag color="red" size="small" class="rounded-full">
+          {{ dallEImage.urls.length }}张
+        </a-tag>
+        <a-alert type="info" class="w-auto rounded-full text-xs my-4">
+          <template #icon>
+            <icon-exclamation-circle-fill />
+          </template>
+          尺寸: {{ dallEImage.size }}
+        </a-alert>
+      </div>
+
+      <a-divider class="m-0 mb-6"></a-divider>
+      <a-image-preview-group infinite>
+        <div
+          class="grid gap-3"
+          :class="[isMobileScreen ? 'grid-cols-2' : 'grid-cols-5']"
+        >
+          <a-image
+            v-for="url in dallEImage?.urls || []"
+            :key="url"
+            :src="url"
+          />
+        </div>
+      </a-image-preview-group>
+    </div> -->
   </a-scrollbar>
 </template>
 
@@ -240,21 +243,17 @@ const draws = computed(() => drawStore.draws)
       }
     }
   }
-  :deep(.arco-tabs-nav-tab) {
-    @apply justify-start;
-    .arco-tabs-nav-tab-list {
-      width: auto !important;
-    }
-  }
-  :deep(.arco-image) {
-    @apply w-full;
-    .arco-image-img {
-      @apply w-full object-cover;
-    }
-  }
-  :deep(.arco-collapse) {
-    .arco-collapse-item-header-title {
-      //
+  :deep(.arco-image-footer) {
+    background-color: rgba(0, 0, 0, 0.75);
+    @apply hidden overflow-hidden h-0 p-0;
+    .arco-image-footer-extra {
+      @apply px-0 w-full;
+      .actions {
+        @apply w-full flex items-center justify-around;
+        .action {
+          @apply text-lg cursor-pointer;
+        }
+      }
     }
   }
 }
