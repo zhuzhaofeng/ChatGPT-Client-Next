@@ -13,7 +13,6 @@ import type {
 } from '@/types/chat'
 import { createMessage } from '@/utils'
 
-import { ALL_MODELS_MAX_TOKENS } from './../config/index'
 import { useConfigStore } from './config'
 
 export const useChatStore = defineStore(
@@ -124,9 +123,9 @@ export const useChatStore = defineStore(
     /** 获取需要携带的消息 */
     const getRequiredMessages = async (curr: Partial<MessageItem>) => {
       // 最大token
-      const maxTokens = ALL_MODELS_MAX_TOKENS[configStore.chatModel] || 2049
-      // 保存返回结果
-      const res = <MessageItem[]>[]
+      // const maxTokens = ALL_MODELS_MAX_TOKENS[configStore.chatModel] || 2049
+      // // 保存返回结果
+      // const res = <MessageItem[]>[]
       // 历史消息 过滤错误消息
       const sMs = (session.value?.messages || []).filter(item => !item.isError)
       // 当前所有的历史消息  (过滤后的消息 + 当前发送的)
@@ -246,15 +245,23 @@ export const useChatStore = defineStore(
           if (axios.isCancel(error)) {
             // 手动停止, 不做content操作
           } else if (statusCode === 5055) {
-            getMessageById(botMessage.id).content = error
+            getMessageById(botMessage.id).content = getMessageById(
+              botMessage.id
+            ).content
+              ? getMessageById(botMessage.id).content + '\n' + error
+              : error
             getMessageById(botMessage.id).isError = true
           } else if (statusCode === 401) {
             getMessageById(botMessage.id).content = '请输入积分卡'
           } else {
-            getMessageById(botMessage.id).content =
-              statusCode !== undefined
+            getMessageById(botMessage.id).content = getMessageById(
+              botMessage.id
+            ).content
+              ? statusCode !== undefined
                 ? `${error?.response?.data || '出错了，稍后重试吧'}`
                 : '网络异常, 请稍后重试!'
+              : error
+
             getMessageById(botMessage.id).isError = true
           }
           getMessageById(botMessage.id).streaming = false
