@@ -1,6 +1,7 @@
 import { Message, Modal } from '@arco-design/web-vue'
 import axios from 'axios'
 import { cloneDeep } from 'lodash-es'
+import { isString } from 'markdown-it/lib/common/utils'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -240,7 +241,7 @@ export const useChatStore = defineStore(
           }
         },
         onError(error: any, statusCode?: number) {
-          // console.log(error, statusCode)
+          console.log(error, statusCode)
           fetching.value = false
           if (axios.isCancel(error)) {
             // 手动停止, 不做content操作
@@ -248,19 +249,21 @@ export const useChatStore = defineStore(
             getMessageById(botMessage.id).content = getMessageById(
               botMessage.id
             ).content
-              ? getMessageById(botMessage.id).content + '\n' + error
+              ? getMessageById(botMessage.id).content + '\n\n\n' + error
               : error
             getMessageById(botMessage.id).isError = true
           } else if (statusCode === 401) {
             getMessageById(botMessage.id).content = '请输入积分卡'
           } else {
-            getMessageById(botMessage.id).content = getMessageById(
-              botMessage.id
-            ).content
-              ? statusCode !== undefined
-                ? `${error?.response?.data || '出错了，稍后重试吧'}`
-                : '网络异常, 请稍后重试!'
-              : error
+            const _content = getMessageById(botMessage.id).content
+            getMessageById(botMessage.id).content = _content
+              ? _content +
+                (statusCode !== undefined
+                  ? `\n\n\n${error?.response?.data || '出错了，稍后重试吧'}`
+                  : '\n\n\n网络异常, 请稍后重试!')
+              : isString(error)
+              ? error
+              : '网络异常, 请稍后重试!'
 
             getMessageById(botMessage.id).isError = true
           }
