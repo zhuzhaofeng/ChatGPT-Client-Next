@@ -21,7 +21,7 @@ export async function useRequestChatStream(
   await axios
     .post(sendMessage.model === 'gpt-4' ? url4 : url3, sendMessage, {
       responseType: 'stream',
-      timeout: 3 * 60 * 1000,
+      timeout: sendMessage.model === 'gpt-4' ? 10 * 60 * 1000 : 3 * 60 * 1000,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
