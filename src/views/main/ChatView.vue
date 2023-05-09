@@ -359,8 +359,10 @@ const placeholder = computed(() => {
       &.is-assistant {
         @apply bg-white dark:bg-dark;
         &.is-error {
-          background-color: rgb(var(--red-1)) !important;
-          color: rgb(var(--red-6)) !important;
+          // background-color: rgb(var(--red-1)) !important;
+          .markdown-body {
+            color: rgb(var(--red-6)) !important;
+          }
         }
       }
     }
