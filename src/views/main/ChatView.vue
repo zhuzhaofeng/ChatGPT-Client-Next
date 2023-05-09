@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Message, type ScrollbarInstance } from '@arco-design/web-vue'
+import { isString } from 'lodash-es'
 
 import assistant from '@/assets/openai-white.svg'
 import userAvatar from '@/assets/userAvatars/user_avatar_36.webp'
@@ -293,13 +294,10 @@ const placeholder = computed(() => {
             <template v-else>
               <MessageContent
                 :key="item.content"
-                :text="item.content"
-                v-if="!item.isError"
+                :text="isString(item.content) ? item.content : ''"
+                :error="item.isError"
                 :inversion="item.role !== 'assistant'"
               ></MessageContent>
-              <div class="flex items-center gap-x-2" v-else>
-                <icon-close-circle-fill /> {{ item.content }}
-              </div>
             </template>
           </section>
         </section>
