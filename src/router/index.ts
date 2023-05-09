@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
+//
 const { VITE_FEATURES } = import.meta.env
 const routes: RouteRecordRaw[] = [
   {
