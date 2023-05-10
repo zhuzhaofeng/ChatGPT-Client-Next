@@ -25,6 +25,7 @@ declare global {
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const effectScope: typeof import('vue')['effectScope']
+  const findConversationId: typeof import('../src/utils/index')['findConversationId']
   const genNonDuplicateID: typeof import('../src/utils/gid')['genNonDuplicateID']
   const genTitleTemplate: typeof import('../src/config/index')['genTitleTemplate']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -119,6 +120,7 @@ declare module 'vue' {
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly findConversationId: UnwrapRef<typeof import('../src/utils/index')['findConversationId']>
     readonly genNonDuplicateID: UnwrapRef<typeof import('../src/utils/gid')['genNonDuplicateID']>
     readonly genTitleTemplate: UnwrapRef<typeof import('../src/config/index')['genTitleTemplate']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
