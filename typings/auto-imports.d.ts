@@ -9,6 +9,7 @@ declare global {
   const APP_TITLE: typeof import('../src/config/index')['APP_TITLE']
   const CHAT_COMPLETIONS: typeof import('../src/config/index')['CHAT_COMPLETIONS']
   const CHAT_COMPLETIONS_4: typeof import('../src/config/index')['CHAT_COMPLETIONS_4']
+  const CHAT_COMPLETIONS_4_NEW: typeof import('../src/config/index')['CHAT_COMPLETIONS_4_NEW']
   const DRAW_PROMPT: typeof import('../src/config/index')['DRAW_PROMPT']
   const EffectScope: typeof import('vue')['EffectScope']
   const IMAGES_GENERATIONS: typeof import('../src/config/index')['IMAGES_GENERATIONS']
@@ -102,6 +103,7 @@ declare module 'vue' {
     readonly APP_TITLE: UnwrapRef<typeof import('../src/config/index')['APP_TITLE']>
     readonly CHAT_COMPLETIONS: UnwrapRef<typeof import('../src/config/index')['CHAT_COMPLETIONS']>
     readonly CHAT_COMPLETIONS_4: UnwrapRef<typeof import('../src/config/index')['CHAT_COMPLETIONS_4']>
+    readonly CHAT_COMPLETIONS_4_NEW: UnwrapRef<typeof import('../src/config/index')['CHAT_COMPLETIONS_4_NEW']>
     readonly DRAW_PROMPT: UnwrapRef<typeof import('../src/config/index')['DRAW_PROMPT']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly IMAGES_GENERATIONS: UnwrapRef<typeof import('../src/config/index')['IMAGES_GENERATIONS']>

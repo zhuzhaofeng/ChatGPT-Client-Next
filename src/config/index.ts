@@ -93,6 +93,9 @@ export const CHAT_COMPLETIONS = '/v1/chat/completions'
 /** POST 聊天接口 gpt 4 */
 export const CHAT_COMPLETIONS_4 = '/v1/completions'
 
+/** POST 聊天接口 gpt 4 new */
+export const CHAT_COMPLETIONS_4_NEW = '/v1/completions-new'
+
 /** GET 查询卡密积分 */
 export const QUERY_CARD = '/v1/card'
 

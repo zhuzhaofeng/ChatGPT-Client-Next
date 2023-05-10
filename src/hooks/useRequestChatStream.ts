@@ -6,7 +6,7 @@ import type { MessageModel } from '@/types/chat'
 export async function useRequestChatStream(
   sendMessage: MessageModel,
   options?: {
-    onMessage: (message: string, done: boolean) => void
+    onMessage: (message: string, done: boolean, conversationId?: string) => void
     onError: (error: Error, statusCode?: number) => void
     onController?: (controller: AbortController) => void
   }
@@ -17,7 +17,7 @@ export async function useRequestChatStream(
   }
   const configStore = useConfigStore()
   const url3 = `${configStore.bootstrap.api}${CHAT_COMPLETIONS}`
-  const url4 = `${configStore.bootstrap.api}${CHAT_COMPLETIONS_4}`
+  const url4 = `${configStore.bootstrap.api}${CHAT_COMPLETIONS_4_NEW}`
   await axios
     .post(sendMessage.model === 'gpt-4' ? url4 : url3, sendMessage, {
       responseType: 'stream',
@@ -37,18 +37,8 @@ export async function useRequestChatStream(
       }
     })
     .then(res => {
-      let data: any = ''
-      try {
-        data = JSON.parse(res?.data)
-      } catch (error) {
-        data = res.data
-      }
-      // console.log(data)
-      if (data?.code === 500) {
-        options?.onError(data?.msg, 5055)
-      } else {
-        options?.onMessage(res?.data, true)
-      }
+      console.log('done', res.headers?.['conversation-id'])
+      options?.onMessage(res?.data, true, res.headers?.['conversation-id'])
     })
     .catch(e => {
       options?.onError(e, e?.response?.status)
