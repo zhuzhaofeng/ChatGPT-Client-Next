@@ -220,7 +220,9 @@ export const useChatStore = defineStore(
             session.value!.topic =
               topic.length > 30 ? topic.slice(0, 30) : topic
           }
-          getMessageById(botMessage.id).content = message
+          if (message) {
+            getMessageById(botMessage.id).content = message
+          }
           // console.log(conversationId)
           if (conversationId) {
             getMessageById(botMessage.id).conversation_id = conversationId

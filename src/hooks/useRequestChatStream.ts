@@ -37,15 +37,17 @@ export async function useRequestChatStream(
             `[conversation_id:${id}] `,
             ''
           )
-          // console.log({ responseText, text, id })
+          if (text.indexOf('[conversation_id') > -1) {
+            console.log({ responseText, text, id })
+          }
           options?.onMessage(text, false, id)
         } else {
           options?.onError(evt?.event?.target, evt?.event?.target?.status)
         }
       }
     })
-    .then(res => {
-      options?.onMessage(res?.data, true)
+    .then(() => {
+      options?.onMessage('', true)
     })
     .catch(e => {
       options?.onError(e, e?.response?.status)
