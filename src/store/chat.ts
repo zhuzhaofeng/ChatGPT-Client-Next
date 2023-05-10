@@ -221,7 +221,9 @@ export const useChatStore = defineStore(
               topic.length > 30 ? topic.slice(0, 30) : topic
           }
           getMessageById(botMessage.id).content = message
-          getMessageById(botMessage.id).conversation_id = conversationId
+          if (conversationId) {
+            getMessageById(botMessage.id).conversation_id = conversationId
+          }
           if (done) {
             onMessage && onMessage(done)
             fetching.value = false
