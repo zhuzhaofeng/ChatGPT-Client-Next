@@ -44,8 +44,8 @@ export async function useRequestChatStream(
         }
       }
     })
-    .then(res => {
-      options?.onMessage(res?.data, true)
+    .then(() => {
+      options?.onMessage('', true)
     })
     .catch(e => {
       options?.onError(e, e?.response?.status)
