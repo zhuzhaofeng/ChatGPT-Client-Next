@@ -208,52 +208,20 @@ export const useChatStore = defineStore(
       session.value!.messages.push(botMessage)
 
       fetching.value = true
-      // requestChatStream(reqData, {
       // console.time('fetch')
       useRequestChatStream(reqData, {
         onController(ctl) {
           abortController.value = ctl
         },
-        onMessage(message: string, done: boolean) {
+        onMessage(message: string, done: boolean, conversationId?: string) {
           // console.log(message)
           if (!session.value?.topic) {
             const topic = userMessage.content.trim().replace(/\r/g, '')
             session.value!.topic =
               topic.length > 30 ? topic.slice(0, 30) : topic
           }
-          if (session.value?.model === 'gpt-4') {
-            // console.log(message)
-            const arr: {
-              answer: string
-              conversation_id: string
-              delta_answer: string
-            }[] = JSON.parse(`[${message.replace(/}{/g, '},{')}]`)
-            const currentMessage = arr.pop()
-
-            getMessageById(botMessage.id).content = currentMessage?.answer || ''
-            getMessageById(botMessage.id).conversation_id =
-              currentMessage?.conversation_id
-
-            try {
-              const arr: {
-                answer: string
-                conversation_id: string
-                delta_answer: string
-              }[] = JSON.parse(`[${message.replace(/}{/g, '},{')}]`)
-              const currentMessage = arr.pop()
-
-              const content = getMessageById(botMessage.id).content
-              getMessageById(botMessage.id).content +=
-                currentMessage?.answer.replace(content, '') || ''
-
-              getMessageById(botMessage.id).conversation_id =
-                currentMessage?.conversation_id
-            } catch (error) {
-              //
-            }
-          } else {
-            getMessageById(botMessage.id).content = message
-          }
+          getMessageById(botMessage.id).content = message
+          getMessageById(botMessage.id).conversation_id = conversationId
           if (done) {
             onMessage && onMessage(done)
             fetching.value = false
@@ -308,17 +276,6 @@ export const useChatStore = defineStore(
 
     /** 初始化判断是否有聊天, 没有创建一个空的 */
     onMounted(() => {
-      // setTimeout(() => {
-      //   console.log('开始')
-      //   useRequestChatStream({
-      //     card: '10241025',
-      //     messages: [{ role: 'user', content: '写一个js节流函数' }],
-      //     temperature: 0.7,
-      //     model: 'gpt-3.5-turbo',
-      //     is_stream: true
-      //   })
-      // }, 3000)
-      // sessions.value = []
       fetching.value = false
       if (sessions.value?.length < 1) {
         // newChatAction()
