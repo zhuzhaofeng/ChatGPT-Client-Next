@@ -41,6 +41,17 @@ export const useChatStore = defineStore(
 
     /** 新加一个聊天 */
     const newChatAction = (model: ChatModel = 'gpt-3.5-turbo') => {
+      // if (model === 'gpt-4') {
+      //   Notification.warning({
+      //     showIcon: true,
+      //     duration: 0,
+      //     closable: true,
+      //     title: '操作提示',
+      //     closeIconElement: () => h(Button, { size: 'mini' }, '关闭'),
+      //     content:
+      //       '推荐您在一般需求下使用GPT-3.5-turbo，仅需3积分每次，响应迅速且稳定。若发起GPT-4请求AI一直未回复，请手动终止并重新发起。在AI尚未回复时，积分不会被扣除。GPT-4返回内容长度难以预估，若回复过长有可能出现自动截断。如需继续补充，请输入“继续”于聊天框，但需注意额外积分消耗。'
+      //   })
+      // }
       if (abortController.value?.abort) {
         abortController.value?.abort()
       }
