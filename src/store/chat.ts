@@ -169,8 +169,9 @@ export const useChatStore = defineStore(
       let reqData: MessageModel
       if (session.value?.model === 'gpt-4') {
         const messages = (session.value?.messages ?? []).filter(
-          ({ role }) => role === 'assistant'
+          ({ role, isError }) => role === 'assistant' && !isError
         )
+        // console.log(messages[messages.length - 1])
         reqData = {
           card: configStore.cardInfo?.enable ? configStore.card : undefined,
           model: 'gpt-4',
@@ -208,6 +209,7 @@ export const useChatStore = defineStore(
 
       fetching.value = true
       // requestChatStream(reqData, {
+      // console.time('fetch')
       useRequestChatStream(reqData, {
         onController(ctl) {
           abortController.value = ctl
@@ -220,6 +222,7 @@ export const useChatStore = defineStore(
               topic.length > 30 ? topic.slice(0, 30) : topic
           }
           if (session.value?.model === 'gpt-4') {
+            // console.log(message)
             const arr: {
               answer: string
               conversation_id: string
@@ -230,6 +233,24 @@ export const useChatStore = defineStore(
             getMessageById(botMessage.id).content = currentMessage?.answer || ''
             getMessageById(botMessage.id).conversation_id =
               currentMessage?.conversation_id
+
+            try {
+              const arr: {
+                answer: string
+                conversation_id: string
+                delta_answer: string
+              }[] = JSON.parse(`[${message.replace(/}{/g, '},{')}]`)
+              const currentMessage = arr.pop()
+
+              const content = getMessageById(botMessage.id).content
+              getMessageById(botMessage.id).content +=
+                currentMessage?.answer.replace(content, '') || ''
+
+              getMessageById(botMessage.id).conversation_id =
+                currentMessage?.conversation_id
+            } catch (error) {
+              //
+            }
           } else {
             getMessageById(botMessage.id).content = message
           }
@@ -238,10 +259,11 @@ export const useChatStore = defineStore(
             fetching.value = false
             getMessageById(botMessage.id).streaming = false
             getMessageById(botMessage.id).date = new Date().valueOf()
+            console.timeEnd('fetch')
           }
         },
         onError(error: any, statusCode?: number) {
-          console.log(error, statusCode)
+          // console.log(error, statusCode)
           fetching.value = false
           if (axios.isCancel(error)) {
             // 手动停止, 不做content操作
@@ -254,6 +276,10 @@ export const useChatStore = defineStore(
             getMessageById(botMessage.id).isError = true
           } else if (statusCode === 401) {
             getMessageById(botMessage.id).content = '请输入积分卡'
+          } else if (statusCode === 500) {
+            getMessageById(botMessage.id).isError = true
+            getMessageById(botMessage.id).content =
+              error?.response?.data || '出错了'
           } else {
             const _content = getMessageById(botMessage.id).content
             getMessageById(botMessage.id).content = _content
