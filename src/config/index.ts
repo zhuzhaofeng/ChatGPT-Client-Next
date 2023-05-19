@@ -1,6 +1,8 @@
 import type { ChatModel } from '@/types/chat'
 
 export const APP_TITLE = import.meta.env.VITE_APP_TITLE
+export const WECHAT_URL = import.meta.env.VITE_WECHAT_URL
+export const E_WECHAT_URL = import.meta.env.VITE_E_WECHAT_URL
 
 export const ALL_MODELS: ChatModel[] = ['gpt-4', 'gpt-3.5-turbo']
 
