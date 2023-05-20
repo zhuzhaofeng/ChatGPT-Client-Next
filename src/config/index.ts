@@ -7,7 +7,7 @@ export const E_WECHAT_URL = import.meta.env.VITE_E_WECHAT_URL
 export const ALL_MODELS: ChatModel[] = ['gpt-4', 'gpt-3.5-turbo']
 
 export const POINTS_MAP: Record<ChatModel, number> = {
-  'gpt-4': 50,
+  'gpt-4': 20,
   'gpt-3.5-turbo': 3
 }
 
