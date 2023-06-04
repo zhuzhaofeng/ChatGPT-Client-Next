@@ -45,7 +45,7 @@ onMounted(() => {
             返回
           </a-link>
         </a-breadcrumb-item>
-        <a-breadcrumb-item>使用说明</a-breadcrumb-item>
+        <!-- <a-breadcrumb-item>使用说明</a-breadcrumb-item> -->
       </a-breadcrumb>
       <div
         class="markdown-body p-6 rounded border border-solid border-gray-100 dark:border-dark-900"

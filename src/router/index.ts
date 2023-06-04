@@ -13,22 +13,22 @@ const routes: RouteRecordRaw[] = [
       hideSetup: true,
       hideLogoText: true
     }
-  },
-  {
-    path: '/tutorial',
-    name: 'Tutorial',
-    component: () => import('@/views/main/TutorialView.vue')
-  },
+  }
+  // {
+  //   path: '/tutorial',
+  //   name: 'Tutorial',
+  //   component: () => import('@/views/main/TutorialView.vue')
+  // },
   // {
   //   path: '/settings',
   //   name: 'Settings',
   //   component: () => import('@/views/main/SettingsView.vue')
   // },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('@/views/main/AboutView.vue')
-  }
+  // {
+  //   path: '/about',
+  //   name: 'About',
+  //   component: () => import('@/views/main/AboutView.vue')
+  // }
 ]
 if (VITE_FEATURES.includes('CHAT')) {
   routes.push({

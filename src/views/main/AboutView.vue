@@ -13,7 +13,7 @@
             返回
           </a-link>
         </a-breadcrumb-item>
-        <a-breadcrumb-item>关于我们</a-breadcrumb-item>
+        <!-- <a-breadcrumb-item>关于我们</a-breadcrumb-item> -->
       </a-breadcrumb>
       <div
         class="text-base leading-8 text-black dark:text-light-900 text-opacity-75"

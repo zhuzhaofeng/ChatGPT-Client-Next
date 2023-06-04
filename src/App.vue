@@ -83,10 +83,10 @@ const handleChangeTheme = (v: string | number | boolean) => {
           <template #icon><icon-apps /></template>
           工具
         </a-menu-item>
-        <a-menu-item key="Tutorial">
+        <!-- <a-menu-item key="Tutorial">
           <template #icon><icon-question-circle /></template>
           使用说明
-        </a-menu-item>
+        </a-menu-item> -->
         <!-- <a-button
           class="cursor-pointer"
           type="text"
@@ -166,12 +166,12 @@ const handleChangeTheme = (v: string | number | boolean) => {
                 聊天
               </a-button>
               <!-- <a-button @click="handleToRouter('/tools')">工具</a-button> -->
-              <a-button
+              <!-- <a-button
                 v-if="route.name !== 'Tutorial'"
                 @click="handleToRouter('/tutorial')"
               >
                 使用说明
-              </a-button>
+              </a-button> -->
               <!-- <a-button
                 target="_blank"
                 href="https://www.houfaka.com/links/193B8193"
@@ -180,12 +180,12 @@ const handleChangeTheme = (v: string | number | boolean) => {
               </a-button> -->
             </template>
             <SettingDrawer />
-            <a-button
+            <!-- <a-button
               v-if="route.name !== 'About'"
               @click="handleToRouter('/about')"
             >
               关于我们
-            </a-button>
+            </a-button> -->
           </div>
         </template>
       </a-popover>
