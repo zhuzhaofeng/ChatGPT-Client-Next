@@ -87,14 +87,14 @@ const handleChangeTheme = (v: string | number | boolean) => {
           <template #icon><icon-question-circle /></template>
           使用说明
         </a-menu-item>
-        <a-button
+        <!-- <a-button
           class="cursor-pointer"
           type="text"
           target="_blank"
           href="https://www.houfaka.com/links/193B8193"
         >
           购买积分卡
-        </a-button>
+        </a-button> -->
       </a-menu>
       <i class="flex-1"></i>
       <!-- <a-input-group
@@ -172,12 +172,12 @@ const handleChangeTheme = (v: string | number | boolean) => {
               >
                 使用说明
               </a-button>
-              <a-button
+              <!-- <a-button
                 target="_blank"
                 href="https://www.houfaka.com/links/193B8193"
               >
                 购买积分卡
-              </a-button>
+              </a-button> -->
             </template>
             <SettingDrawer />
             <a-button

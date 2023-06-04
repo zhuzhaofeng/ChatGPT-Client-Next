@@ -247,7 +247,7 @@ export const useChatStore = defineStore(
           }
         },
         onError(error: any, statusCode?: number) {
-          // console.log(error, statusCode)
+          console.log(error, statusCode)
           fetching.value = false
           if (axios.isCancel(error)) {
             // 手动停止, 不做content操作

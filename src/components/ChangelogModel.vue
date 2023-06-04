@@ -24,7 +24,7 @@ const handleCloseContactModel = () => {
     :esc-to-close="false"
     :mask-closable="false"
     title-align="start"
-    v-model:visible="visible"
+    :visible="false"
     @close="handleCloseContactModel"
   >
     <template #title>
