@@ -219,28 +219,6 @@ const placeholder = computed(() => {
           v-if="!session?.messages?.length"
           class="flex flex-col items-center justify-center mt-10 gap-y-10 text-center text-gray-600"
         >
-          <span>
-            国内最快最好用的gpt站点，网址经常变更，所以使用前一定要记得先加群！！！
-          </span>
-          <div class="grid grid-cols-2">
-            <div class="flex flex-col items-center gap-y-2 py-2">
-              <img
-                class="max-w-40 w-11/12 border-solid border border-gray-200 p-1"
-                alt="QQ"
-                src="/assets/QQ.png"
-              />
-              <span class="">QQ群</span>
-            </div>
-            <div class="flex flex-col items-center gap-y-2 py-2">
-              <img
-                class="max-w-40 w-11/12 border-solid border border-gray-200 p-1"
-                alt="WeChat"
-                src="/assets/WeChat.png"
-              />
-              <span class="">微信群</span>
-            </div>
-          </div>
-
           <span class="max-w-4/5 lg:max-w-3/5 11/12 w-full">
             推荐您在一般需求下使用GPT-3.5-turbo，仅需3积分每次，响应迅速且稳定。若发起GPT-4请求AI一直未回复，请手动终止并重新发起。在AI尚未回复时，积分不会被扣除。GPT-4返回内容长度难以预估，若回复过长有可能出现自动截断。如需继续补充，请输入“继续”于聊天框，但需注意额外积分消耗。
           </span>
