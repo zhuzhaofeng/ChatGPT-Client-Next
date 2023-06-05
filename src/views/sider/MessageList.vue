@@ -122,13 +122,13 @@ const selectedKeys = computed(() => [chatStore.currentChat])
           <template #icon><icon-robot-add /></template>
           清除会话
         </a-link>
-        <a-link
+        <!-- <a-link
           @click="() => layoutStore.changeShowContactAction(true)"
           type="primary"
         >
           <template #icon><icon-robot-add /></template>
           加入群聊
-        </a-link>
+        </a-link> -->
       </div>
     </div>
   </a-layout-sider>

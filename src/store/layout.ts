@@ -42,7 +42,7 @@ export const useLayoutStore = defineStore(
     })
 
     const changeShowContactAction = (payload: boolean) => {
-      isShowContact.value = payload
+      isShowContact.value = false
     }
     const changeShowLogAction = (payload: boolean) => {
       isShowLog.value = payload
